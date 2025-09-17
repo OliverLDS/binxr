@@ -1,0 +1,22 @@
+Package: binxr
+Type: Package
+Title: Binance REST API Client for R
+Version: 0.0.1
+Authors@R: 
+    person("Oliver", "Lee", email = "olee7149@gmail.com", role = c("aut", "cre"))
+Description: Lightweight R client for Binance Spot and Futures REST APIs.
+    Provides helper functions for signed/unsigned requests, market data retrieval,
+    and order management with data.table output.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.5.0)
+Imports:
+    httr2,
+    jsonlite,
+    digest,
+    data.table,
+    rlang
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+
