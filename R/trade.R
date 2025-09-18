@@ -126,8 +126,25 @@ get_fapi_trade_open_orders <- function(symbol = NULL, config = binxr_config_futu
   orders_dt <- data.table::rbindlist(.signed_req(config, "/fapi/v1/openOrders", kv, method = "GET"))
   data.table::set(orders_dt, j = 'time_human', value = as.POSIXct(orders_dt$time/1000, origin = "1970-01-01", tz = Sys.timezone()))
   data.table::set(orders_dt, j = 'updateTime_human', value = as.POSIXct(orders_dt$updateTime/1000, origin = "1970-01-01", tz = Sys.timezone()))
+  invisible(orders_dt)
 }
 
+#' Get all futures orders
+#'
+#' Retrieve all (filled, cancelled, or open) futures orders for a symbol.
+#'
+#' @param symbol character Trading pair symbol, e.g., "ETHUSDT".
+#' @param limit integer Maximum number of orders to return (default 500).
+#' @param config list binxr futures configuration.
+#' @return data.table All orders with `time_human` and `updateTime_human` columns; returned invisibly.
+#' @export
+get_fapi_trade_orders <- function(symbol, limit = 500, config = binxr_config_futures()) {
+  kv <- list(symbol = symbol, limit = limit)
+  orders_dt <- data.table::rbindlist(.signed_req(config, "/fapi/v1/allOrders", kv, method = "GET"))
+  data.table::set(orders_dt, j = 'time_human', value = as.POSIXct(orders_dt$time/1000, origin = "1970-01-01", tz = Sys.timezone()))
+  data.table::set(orders_dt, j = 'updateTime_human', value = as.POSIXct(orders_dt$updateTime/1000, origin = "1970-01-01", tz = Sys.timezone()))
+  invisible(orders_dt)
+}
 
 #' Get a futures order
 #'
