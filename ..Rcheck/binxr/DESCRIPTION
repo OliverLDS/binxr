@@ -14,14 +14,9 @@ URL: https://github.com/OliverLDS/binxr
 BugReports: https://github.com/OliverLDS/binxr/issues
 Encoding: UTF-8
 Depends: R (>= 4.1.0)
-Imports:
-    httr2,
-    jsonlite,
-    digest,
-    data.table,
-    rlang
-Suggests:
-    testthat (>= 3.0.0)
+Imports: httr2, jsonlite, digest, data.table, rlang
+Suggests: testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Built: R 4.2.3; ; 2026-03-20 13:48:27 UTC; unix

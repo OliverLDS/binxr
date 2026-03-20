@@ -1,0 +1,44 @@
+template:
+  bootstrap: 5
+
+home:
+  title: binxr
+  description: Lightweight R client for Binance REST APIs
+
+url: https://oliverlds.github.io/binxr/
+
+reference:
+  - title: Configuration
+    contents:
+      - config_futures
+      - config_spot
+      - binxr_config_futures
+      - binxr_config_spot
+  - title: Market Data
+    contents:
+      - get_fapi_system_time
+      - get_fapi_exchange_info
+      - get_fapi_mark_price
+      - get_fapi_klines
+      - get_spot_mark_price
+  - title: Account
+    contents:
+      - get_fapi_account
+      - get_fapi_account_position_risk
+      - get_fapi_account_positions
+      - get_fapi_account_summary
+  - title: Trading
+    contents:
+      - set_fapi_account_margin_type
+      - set_fapi_account_leverage
+      - set_fapi_account_position_side
+      - place_fapi_trade_order
+      - cancel_fapi_trade_order
+      - cancel_fapi_trade_orders_all
+      - get_fapi_trade_open_orders
+      - get_fapi_trade_orders
+      - get_fapi_trade_order
+  - title: Helpers
+    contents:
+      - util_round_price_qty
+      - coerce_account_frames

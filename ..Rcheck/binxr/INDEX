@@ -1,0 +1,34 @@
+binxr_config_futures    Backward-compatible futures config constructor
+binxr_config_spot       Backward-compatible spot config constructor
+coerce_account_frames   (Optional) Coerce account to data.frames
+config_futures          Create a Binance futures configuration
+config_spot             Create a Binance spot configuration
+futures_cancel_all_orders
+                        Cancel all open Binance Futures orders for a
+                        symbol
+futures_cancel_order    Cancel a Binance Futures order
+futures_get_account     Get Binance Futures account info
+futures_get_account_summary
+                        Get Binance Futures account summary
+futures_get_exchange_info
+                        Get Binance Futures exchange info
+futures_get_klines      Get Binance Futures klines
+futures_get_mark_price
+                        Get Binance Futures mark price
+futures_get_open_orders
+                        Get Binance Futures open orders
+futures_get_order       Get a Binance Futures order
+futures_get_orders      Get Binance Futures order history
+futures_get_position_risk
+                        Get Binance Futures position risk
+futures_get_positions   Get standardized Binance Futures positions
+futures_get_server_time
+                        Get Binance Futures server time
+futures_place_order     Place a Binance Futures order
+futures_set_leverage    Set Binance Futures leverage
+futures_set_margin_type
+                        Set Binance Futures margin type
+futures_set_position_mode
+                        Set Binance Futures position mode
+round_price_qty         Round price and quantity to exchange increments
+spot_get_ticker_price   Get Binance Spot ticker price
