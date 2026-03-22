@@ -30,7 +30,12 @@ reference:
       - futures_get_recent_trades
       - futures_get_aggregate_trades
       - futures_get_open_interest
+      - futures_get_funding_info
       - futures_get_funding_rate_history
+      - futures_get_continuous_klines
+      - futures_get_index_price_klines
+      - futures_get_mark_price_klines
+      - futures_get_premium_index_klines
   - title: Futures Account
     contents:
       - futures_get_account
@@ -77,6 +82,8 @@ reference:
       - spot_get_average_price
       - spot_get_reference_price
       - spot_get_reference_price_calculation
+      - spot_get_execution_rules
+      - spot_get_relevant_filters
   - title: Spot Account
     contents:
       - spot_get_account
