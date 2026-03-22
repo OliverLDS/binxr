@@ -1,0 +1,42 @@
+
+R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(binxr)
+> 
+> if (inherits(try(loadNamespace("waldo"), silent = TRUE), "try-error")) {
++   assignInNamespace(
++     "waldo_compare",
++     function(x, y, ..., x_arg = "x", y_arg = "y") {
++       if (identical(x, y)) {
++         character()
++       } else {
++         paste0(x_arg, " is not identical to ", y_arg)
++       }
++     },
++     ns = "testthat"
++   )
++ }
+> 
+> test_check("binxr")
+[ FAIL 0 | WARN 50 | SKIP 0 | PASS 218 ]
+
+[ FAIL 0 | WARN 50 | SKIP 0 | PASS 218 ]
+> 
+> proc.time()
+   user  system elapsed 
+  1.167   0.099   1.266 

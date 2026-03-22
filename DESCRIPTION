@@ -1,14 +1,15 @@
 Package: binxr
 Type: Package
 Title: Binance REST API Client for R
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person("Oliver", "Zhou", email = "olee7149@gmail.com", role = c("aut", "cre"))
 Author: Oliver Zhou [aut, cre]
 Maintainer: Oliver Zhou <olee7149@gmail.com>
-Description: Lightweight R client for Binance Spot and Futures REST APIs.
-    Provides helper functions for signed/unsigned requests, market data retrieval,
-    and order management with data.table output.
+Description: Lightweight R client for Binance Spot, Futures, and Options
+    REST APIs. Provides helper functions for signed and unsigned requests,
+    market data retrieval, account access, and order management with
+    `data.table` output by default.
 License: MIT + file LICENSE
 URL: https://github.com/OliverLDS/binxr
 BugReports: https://github.com/OliverLDS/binxr/issues

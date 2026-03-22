@@ -2,11 +2,60 @@
 * using R version 4.2.3 (2023-03-15)
 * using platform: x86_64-apple-darwin17.0 (64-bit)
 * using session charset: ASCII
-* using option '--no-manual'
+* using options '--no-manual --as-cran'
 * checking for file './DESCRIPTION' ... OK
 * checking extension type ... Package
-* this is package 'binxr' version '0.1.0'
+* this is package 'binxr' version '0.1.1'
 * package encoding: UTF-8
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: 'Oliver Zhou <olee7149@gmail.com>'
+
+License components with restrictions and base license permitting such:
+  MIT + file LICENSE
+File 'LICENSE':
+  {\rtf1\ansi\ansicpg1252\cocoartf2639
+  \cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+  {\colortbl;\red255\green255\blue255;}
+  {\*\expandedcolortbl;;}
+  \margl1440\margr1440\vieww13440\viewh10200\viewkind0
+  \pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+  
+  \f0\fs28 \cf0 MIT License\
+  \
+  Copyright (c) 2025 Oliver Lee\
+  \
+  Permission is hereby granted, free of charge, to any person obtaining a copy\
+  of this software and associated documentation files (the "Software"), to deal\
+  in the Software without restriction, including without limitation the rights\
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\
+  copies of the Software, and to permit persons to whom the Software is\
+  furnished to do so, subject to the following conditions:\
+  \
+  The above copyright notice and this permission notice shall be included in all\
+  copies or substantial portions of the Software.\
+  \
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\
+  SOFTWARE.\
+  }
+
+Found the following (possibly) invalid URLs:
+  URL: https://github.com/OliverLDS/binxr
+    From: DESCRIPTION
+    Status: Error
+    Message: libcurl error code 6:
+      	Could not resolve host: github.com
+  URL: https://github.com/OliverLDS/binxr/issues
+    From: DESCRIPTION
+    Status: Error
+    Message: libcurl error code 6:
+      	Could not resolve host: github.com
+
+The build time stamp is missing.
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
@@ -14,16 +63,25 @@
 * checking for executable files ... OK
 * checking for hidden files and directories ... NOTE
 Found the following hidden files and directories:
+  .DS_Store
   ..Rcheck
   .git
   .github
 These were most likely included in error. See section 'Package
 structure' in the 'Writing R Extensions' manual.
+
+CRAN-pack does not know about
+  .DS_Store
+  ..Rcheck
+  .git
+  .github
 * checking for portable file names ... OK
 * checking for sufficient/correct file permissions ... OK
 * checking whether package 'binxr' can be installed ... OK
 * checking installed package size ... OK
 * checking package directory ... OK
+* checking for future file timestamps ... NOTE
+unable to verify current time
 * checking DESCRIPTION meta-information ... WARNING
 During startup - Warning messages:
 1: Setting LC_CTYPE failed, using "C" 
@@ -39,4 +97,4 @@ During startup - Warning messages:
 4: Setting LC_MESSAGES failed, using "C" 
 5: Setting LC_MONETARY failed, using "C" 
 * DONE
-Status: 1 ERROR, 1 WARNING, 1 NOTE
+Status: 1 ERROR, 1 WARNING, 3 NOTEs

@@ -1,8 +1,9 @@
-^\\.DS_Store$
-^\\.git$
-^\\.github$
-^\\.github/
-^\\.Rhistory$
-^R/\\.DS_Store$
-^R/\\.Rhistory$
-^\\.\\.?Rcheck$
+^\.DS_Store$
+^\.git$
+^\.github$
+^\.github/
+^\.github/.*
+^\.Rhistory$
+^R/\.DS_Store$
+^R/\.Rhistory$
+^\.{1,2}Rcheck$
