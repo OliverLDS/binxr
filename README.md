@@ -1,6 +1,10 @@
 # binxr
 
+[![Documentation](https://img.shields.io/badge/docs-pkgdown-blue.svg)](https://oliverlds.github.io/binxr/)
+
 An R client for the **Binance REST API** (Spot, Futures, and Options).
+
+Documentation site: <https://oliverlds.github.io/binxr/>
 
 ## Overview
 `binxr` provides lightweight helpers for:

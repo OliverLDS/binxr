@@ -11,7 +11,8 @@ Description: Lightweight R client for Binance Spot, Futures, and Options
     market data retrieval, account access, and order management with
     `data.table` output by default.
 License: MIT + file LICENSE
-URL: https://github.com/OliverLDS/binxr
+URL: https://github.com/OliverLDS/binxr,
+    https://oliverlds.github.io/binxr/
 BugReports: https://github.com/OliverLDS/binxr/issues
 Encoding: UTF-8
 Depends: R (>= 4.1.0)
