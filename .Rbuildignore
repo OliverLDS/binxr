@@ -7,3 +7,6 @@
 ^R/\.DS_Store$
 ^R/\.Rhistory$
 ^\.{1,2}Rcheck$
+^_pkgdown\.yml$
+^docs$
+^docs/.*
