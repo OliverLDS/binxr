@@ -28,6 +28,9 @@ jobs:
 
       - uses: r-lib/actions/setup-tinytex@v2
 
+      - name: Install LaTeX font packages
+        run: Rscript -e 'tinytex::tlmgr_install(c("courier", "psnfss"))'
+
       - name: Install HTML Tidy
         if: runner.os == 'Linux'
         run: |
