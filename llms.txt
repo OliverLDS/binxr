@@ -17,6 +17,7 @@ analysis
 ## Installation
 
 ``` r
+
 # From GitHub (using remotes or devtools)
 remotes::install_github("OliverLDS/binxr")
 ```
@@ -24,6 +25,7 @@ remotes::install_github("OliverLDS/binxr")
 ## Quick Start
 
 ``` r
+
 library(binxr)
 
 # Create a config (keys pulled from environment vars by default)
