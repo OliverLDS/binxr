@@ -44,3 +44,11 @@ config_futures(
 ## Value
 
 A `binxr_config` list.
+
+## Examples
+
+``` r
+cfg <- config_futures(api_key = NULL, secret_key = NULL)
+cfg$product
+#> [1] "futures"
+```

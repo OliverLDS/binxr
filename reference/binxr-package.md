@@ -24,4 +24,8 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Oliver Zhou <olee7149@gmail.com>
+**Maintainer**: Oliver Zhou <oliver.yxzhou@gmail.com>
+
+Authors:
+
+- Lily Li <lilyli.qc.hk@gmail.com>

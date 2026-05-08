@@ -70,31 +70,36 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/OliverLDS/binxr" class="external-link">binxr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Create a config (keys pulled from environment vars by default)</span></span>
-<span><span class="va">cfg</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/config_futures.html">config_futures</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># Create a public config without credentials.</span></span>
+<span><span class="va">cfg</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/config_futures.html">config_futures</a></span><span class="op">(</span>api_key <span class="op">=</span> <span class="cn">NULL</span>, secret_key <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Get server time</span></span>
-<span><span class="fu"><a href="reference/futures_get_server_time.html">futures_get_server_time</a></span><span class="op">(</span><span class="va">cfg</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Fetch latest mark price for ETHUSDT</span></span>
-<span><span class="fu"><a href="reference/futures_get_mark_price.html">futures_get_mark_price</a></span><span class="op">(</span><span class="st">"ETHUSDT"</span>, <span class="va">cfg</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Place a limit order (example)</span></span>
-<span><span class="fu"><a href="reference/futures_place_order.html">futures_place_order</a></span><span class="op">(</span></span>
-<span>  symbol <span class="op">=</span> <span class="st">"ETHUSDT"</span>,</span>
-<span>  side <span class="op">=</span> <span class="st">"BUY"</span>,</span>
-<span>  type <span class="op">=</span> <span class="st">"LIMIT"</span>,</span>
-<span>  quantity <span class="op">=</span> <span class="fl">0.01</span>,</span>
-<span>  price <span class="op">=</span> <span class="fl">1800</span>,</span>
-<span>  time_in_force <span class="op">=</span> <span class="st">"GTC"</span>,</span>
-<span>  config <span class="op">=</span> <span class="va">cfg</span></span>
+<span><span class="co"># Prepare values using local helper logic, without making a network request.</span></span>
+<span><span class="va">exchange_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  symbols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    ETHUSDT <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>      filters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>filterType <span class="op">=</span> <span class="st">"PRICE_FILTER"</span>, tickSize <span class="op">=</span> <span class="st">"0.01"</span><span class="op">)</span>,</span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>filterType <span class="op">=</span> <span class="st">"LOT_SIZE"</span>, stepSize <span class="op">=</span> <span class="st">"0.001"</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Spot market data</span></span>
-<span><span class="fu"><a href="reference/spot_get_ticker_price.html">spot_get_ticker_price</a></span><span class="op">(</span>symbol <span class="op">=</span> <span class="st">"BTCUSDT"</span>, config <span class="op">=</span> <span class="fu"><a href="reference/config_spot.html">config_spot</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/round_price_qty.html">round_price_qty</a></span><span class="op">(</span><span class="va">exchange_info</span>, <span class="st">"ETHUSDT"</span>, price <span class="op">=</span> <span class="fl">1800.123</span>, quantity <span class="op">=</span> <span class="fl">0.12345</span><span class="op">)</span></span></code></pre></div>
+<p>Live API requests require network access. Authenticated trading endpoints also require Binance API credentials supplied explicitly or via <code>BINX_API_KEY</code> and <code>BINX_SECRET_KEY</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/OliverLDS/binxr" class="external-link">binxr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Options market data</span></span>
+<span><span class="va">cfg</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/config_futures.html">config_futures</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Public futures market data.</span></span>
+<span><span class="fu"><a href="reference/futures_get_server_time.html">futures_get_server_time</a></span><span class="op">(</span>config <span class="op">=</span> <span class="va">cfg</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/futures_get_mark_price.html">futures_get_mark_price</a></span><span class="op">(</span>symbol <span class="op">=</span> <span class="st">"ETHUSDT"</span>, config <span class="op">=</span> <span class="va">cfg</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Public spot and options market data.</span></span>
+<span><span class="fu"><a href="reference/spot_get_ticker_price.html">spot_get_ticker_price</a></span><span class="op">(</span>symbol <span class="op">=</span> <span class="st">"BTCUSDT"</span>, config <span class="op">=</span> <span class="fu"><a href="reference/config_spot.html">config_spot</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/options_get_mark_price.html">options_get_mark_price</a></span><span class="op">(</span>config <span class="op">=</span> <span class="fu"><a href="reference/config_options.html">config_options</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Order-management helpers such as <code><a href="reference/futures_place_order.html">futures_place_order()</a></code> and <code><a href="reference/spot_place_order.html">spot_place_order()</a></code> are intentionally not shown as copy-paste quick-start code: review Binance permissions, testnet settings, and order parameters before using them with real credentials.</p>
 </div>
 <div class="section level2">
 <h2 id="requirements">Requirements<a class="anchor" aria-label="anchor" href="#requirements"></a>

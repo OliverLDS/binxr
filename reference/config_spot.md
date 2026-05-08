@@ -44,3 +44,11 @@ config_spot(
 ## Value
 
 A `binxr_config` list.
+
+## Examples
+
+``` r
+cfg <- config_spot(api_key = NULL, secret_key = NULL)
+cfg$product
+#> [1] "spot"
+```
