@@ -7,6 +7,18 @@
 #' @param round_dir Direction: `"down"` or `"up"`.
 #'
 #' @return A list with elements `price` and `quantity`.
+#' @examples
+#' exchange_info <- list(
+#'   symbols = list(
+#'     ETHUSDT = list(
+#'       filters = list(
+#'         list(filterType = "PRICE_FILTER", tickSize = "0.01"),
+#'         list(filterType = "LOT_SIZE", stepSize = "0.001")
+#'       )
+#'     )
+#'   )
+#' )
+#' round_price_qty(exchange_info, "ETHUSDT", price = 1800.123, quantity = 0.12345)
 #' @export
 round_price_qty <- function(exchangeInfo, symbol, price = NULL, quantity = NULL, round_dir = c("down", "up")) {
   round_dir <- match.arg(round_dir)

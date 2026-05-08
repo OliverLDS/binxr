@@ -32,3 +32,7 @@ A \code{binxr_config} list.
 \description{
 Create a Binance options configuration
 }
+\examples{
+cfg <- config_options(api_key = NULL, secret_key = NULL)
+cfg$product
+}

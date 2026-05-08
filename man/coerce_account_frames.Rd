@@ -15,3 +15,10 @@ list(assets=..., positions=...)
 \description{
 (Optional) Coerce account to data.frames
 }
+\examples{
+account <- list(
+  assets = list(list(asset = "USDT", walletBalance = "10")),
+  positions = list(list(symbol = "ETHUSDT", positionAmt = "0"))
+)
+coerce_account_frames(account)
+}

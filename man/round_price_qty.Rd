@@ -38,3 +38,16 @@ A list with elements \code{price} and \code{quantity}.
 \description{
 Round price and quantity to exchange increments
 }
+\examples{
+exchange_info <- list(
+  symbols = list(
+    ETHUSDT = list(
+      filters = list(
+        list(filterType = "PRICE_FILTER", tickSize = "0.01"),
+        list(filterType = "LOT_SIZE", stepSize = "0.001")
+      )
+    )
+  )
+)
+round_price_qty(exchange_info, "ETHUSDT", price = 1800.123, quantity = 0.12345)
+}

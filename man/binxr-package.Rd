@@ -26,7 +26,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Oliver Zhou \email{olee7149@gmail.com}
+\strong{Maintainer}: Oliver Zhou \email{oliver.yxzhou@gmail.com}
+
+Authors:
+\itemize{
+  \item Lily Li \email{lilyli.qc.hk@gmail.com}
+}
 
 }
 \keyword{internal}

@@ -8,6 +8,9 @@
 #' @param verbose logical whether to enable verbose request debugging in future helpers.
 #'
 #' @return A `binxr_config` list.
+#' @examples
+#' cfg <- config_futures(api_key = NULL, secret_key = NULL)
+#' cfg$product
 #' @export
 config_futures <- function(
     api_key = Sys.getenv("BINX_API_KEY", unset = ""),
@@ -37,6 +40,9 @@ config_futures <- function(
 #' @param verbose logical whether to enable verbose request debugging in future helpers.
 #'
 #' @return A `binxr_config` list.
+#' @examples
+#' cfg <- config_spot(api_key = NULL, secret_key = NULL)
+#' cfg$product
 #' @export
 config_spot <- function(
     api_key = Sys.getenv("BINX_API_KEY", unset = ""),
@@ -66,6 +72,9 @@ config_spot <- function(
 #' @param verbose logical whether to enable verbose request debugging in future helpers.
 #'
 #' @return A `binxr_config` list.
+#' @examples
+#' cfg <- config_options(api_key = NULL, secret_key = NULL)
+#' cfg$product
 #' @export
 config_options <- function(
     api_key = Sys.getenv("BINX_API_KEY", unset = ""),

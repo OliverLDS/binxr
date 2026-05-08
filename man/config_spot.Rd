@@ -32,3 +32,7 @@ A \code{binxr_config} list.
 \description{
 Create a Binance spot configuration
 }
+\examples{
+cfg <- config_spot(api_key = NULL, secret_key = NULL)
+cfg$product
+}
