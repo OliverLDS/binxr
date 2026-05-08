@@ -14,10 +14,10 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest, r: release}
-          - {os: macos-latest, r: release}
-          - {os: windows-latest, r: release}
-          - {os: ubuntu-latest, r: devel}
+          - {os: ubuntu-latest, r: release, args: 'c("--as-cran")', build_args: "character()"}
+          - {os: macos-latest, r: release, args: 'c("--as-cran", "--no-manual")', build_args: 'c("--no-manual")'}
+          - {os: windows-latest, r: release, args: 'c("--as-cran", "--no-manual")', build_args: 'c("--no-manual")'}
+          - {os: ubuntu-latest, r: devel, args: 'c("--as-cran", "--no-manual")', build_args: 'c("--no-manual")'}
 
     steps:
       - uses: actions/checkout@v4
@@ -27,8 +27,10 @@ jobs:
           r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-tinytex@v2
+        if: matrix.config.build_args == 'character()'
 
       - name: Install LaTeX font packages
+        if: matrix.config.build_args == 'character()'
         run: tlmgr install courier psnfss
 
       - name: Install HTML Tidy
@@ -44,4 +46,5 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v2
         with:
-          args: 'c("--as-cran")'
+          args: ${{ matrix.config.args }}
+          build_args: ${{ matrix.config.build_args }}
