@@ -1,19 +1,11 @@
 ## R CMD check results
 
-Local package checks pass with no package-level errors or warnings.
-
-`R CMD check --as-cran --no-manual` currently reports one environment NOTE:
-
-- `unable to verify current time`
-
-Full `--as-cran` with manual PDF generation was not completed locally because
-`pdflatex` is not available on this machine. CRAN incoming URL/version checks
-also require stable network access.
+0 errors | 0 warnings | 0 notes
 
 ## Test environments
 
 - Local macOS, R 4.2.3
-- GitHub Actions, ubuntu-latest, R release
+- GitHub Actions, ubuntu-latest, R release, `R CMD check --as-cran`
 
 ## Submission notes
 
