@@ -12,7 +12,12 @@
 
 ## Submission notes
 
-This is the first CRAN submission.
+This is a resubmission.
+
+In this version I have:
+
+- removed the redundant "for R" from the package title
+- wrapped software and API names in single quotes in the Title and Description
 
 The remaining NOTE is the expected CRAN incoming feasibility note for a new
 submission. It also reports `Binance` as a possibly misspelled word; this is the
