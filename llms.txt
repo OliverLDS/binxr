@@ -237,6 +237,8 @@ Developed by **Oliver Zhou**, 2025.
   : Get Binance Spot recent trades
 - [`spot_get_historical_trades()`](https://oliverlds.github.io/binxr/reference/spot_get_historical_trades.md)
   : Get Binance Spot historical trades
+- [`spot_get_historical_block_trades()`](https://oliverlds.github.io/binxr/reference/spot_get_historical_block_trades.md)
+  : Get Binance Spot historical block trades
 - [`spot_get_aggregate_trades()`](https://oliverlds.github.io/binxr/reference/spot_get_aggregate_trades.md)
   : Get Binance Spot aggregate trades
 - [`spot_get_klines()`](https://oliverlds.github.io/binxr/reference/spot_get_klines.md)

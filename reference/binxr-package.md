@@ -1,10 +1,10 @@
-# binxr: Binance REST API Client for R
+# binxr: 'Binance' REST API Client
 
-Client helpers for the Binance Spot, Futures, and Options REST APIs. The
-package provides configuration constructors, signed and unsigned request
-helpers, market data retrieval, account access, and order management
-functions. Tabular endpoint responses are returned as `data.table`
-objects by default.
+Client helpers for the 'Binance' Spot, Futures, and Options REST APIs.
+The package provides configuration constructors, signed and unsigned
+request helpers, market data retrieval, account access, and order
+management functions. Tabular endpoint responses are returned as
+`data.table` objects by default.
 
 ## Details
 
@@ -27,5 +27,7 @@ Useful links:
 **Maintainer**: Oliver Zhou <oliver.yxzhou@gmail.com>
 
 Authors:
+
+- Oliver Zhou <oliver.yxzhou@gmail.com>
 
 - Lily Li <lilyli.qc.hk@gmail.com>

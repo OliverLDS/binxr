@@ -96,6 +96,7 @@
 <url><loc>https://oliverlds.github.io/binxr/reference/spot_get_commission_rates.html</loc></url>
 <url><loc>https://oliverlds.github.io/binxr/reference/spot_get_exchange_info.html</loc></url>
 <url><loc>https://oliverlds.github.io/binxr/reference/spot_get_execution_rules.html</loc></url>
+<url><loc>https://oliverlds.github.io/binxr/reference/spot_get_historical_block_trades.html</loc></url>
 <url><loc>https://oliverlds.github.io/binxr/reference/spot_get_historical_trades.html</loc></url>
 <url><loc>https://oliverlds.github.io/binxr/reference/spot_get_klines.html</loc></url>
 <url><loc>https://oliverlds.github.io/binxr/reference/spot_get_open_order_lists.html</loc></url>
