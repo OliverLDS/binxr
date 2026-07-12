@@ -4,9 +4,9 @@
 \name{binxr-package}
 \alias{binxr}
 \alias{binxr-package}
-\title{binxr: Binance REST API Client for R}
+\title{binxr: 'Binance' REST API Client}
 \description{
-Client helpers for the Binance Spot, Futures, and Options REST APIs.
+Client helpers for the 'Binance' Spot, Futures, and Options REST APIs.
 The package provides configuration constructors, signed and unsigned
 request helpers, market data retrieval, account access, and order management
 functions. Tabular endpoint responses are returned as \code{data.table} objects
@@ -30,6 +30,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Oliver Zhou \email{oliver.yxzhou@gmail.com}
   \item Lily Li \email{lilyli.qc.hk@gmail.com}
 }
 

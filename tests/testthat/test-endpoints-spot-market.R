@@ -101,6 +101,45 @@ test_that("spot recent and historical trades default to data.table and support j
   expect_identical(historical_list, payload)
 })
 
+test_that("spot historical block trades pass parameters through and default to data.table", {
+  payload <- list(
+    list(
+      id = "1",
+      price = "100",
+      qty = "2",
+      quoteQty = "200",
+      time = 1700000000000,
+      isBuyerMaker = TRUE,
+      isBestMatch = TRUE
+    )
+  )
+
+  local_mocked_bindings(
+    .request_public = function(config, path, query = NULL) {
+      if (!is.null(query$fromId)) {
+        return(list(path = path, query = query))
+      }
+      payload
+    },
+    .package = "binxr"
+  )
+
+  query_out <- spot_get_historical_block_trades(
+    "BTCUSDT",
+    limit = 50,
+    fromId = 10,
+    json_list = TRUE
+  )
+  dt_out <- spot_get_historical_block_trades("BTCUSDT")
+
+  expect_identical(query_out$path, "/api/v3/historicalBlockTrades")
+  expect_identical(query_out$query$symbol, "BTCUSDT")
+  expect_identical(query_out$query$limit, 50)
+  expect_identical(query_out$query$fromId, 10)
+  expect_s3_class(dt_out, "data.table")
+  expect_equal(dt_out$id, "1")
+})
+
 test_that("spot aggregate trades pass selector parameters through and default to data.table", {
   local_mocked_bindings(
     .request_public = function(config, path, query = NULL) {

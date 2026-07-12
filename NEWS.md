@@ -1,3 +1,11 @@
+# binxr (development version)
+
+- Added `spot_get_historical_block_trades()` for the Spot
+  `/api/v3/historicalBlockTrades` endpoint added in Binance's 2026 Spot API
+  changelog.
+- Added mocked regression coverage for `CANCEL_ONLY` `symbolStatus` passthrough
+  and `expiryReason` preservation in Spot order responses.
+
 # binxr 0.1.1
 
 - Officially included Binance Options support in the documented package scope.

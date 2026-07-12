@@ -1,7 +1,7 @@
 Package: binxr
 Type: Package
 Title: 'Binance' REST API Client
-Version: 0.1.1
+Version: 0.1.1.9000
 Authors@R: c(
     person("Oliver", "Zhou", email = "oliver.yxzhou@gmail.com", role = c("aut", "cre")),
     person("Lily", "Li", email = "lilyli.qc.hk@gmail.com", role = "aut")

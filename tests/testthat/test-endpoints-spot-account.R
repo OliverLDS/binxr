@@ -57,7 +57,13 @@ test_that("spot account endpoints call signed paths and shape tabular responses"
         return(list(path = path, params = params, method = method))
       }
       if (identical(path, "/api/v3/openOrders")) {
-        return(list(list(orderId = "1", time = 1000, updateTime = 2000, price = "100.5")))
+        return(list(list(
+          orderId = "1",
+          time = 1000,
+          updateTime = 2000,
+          price = "100.5",
+          expiryReason = "EXECUTION_PRICE_RANGE"
+        )))
       }
       if (identical(path, "/api/v3/myTrades")) {
         return(list(list(id = "2", orderId = "9", price = "101", qty = "0.5", time = 3000)))
@@ -87,6 +93,7 @@ test_that("spot account endpoints call signed paths and shape tabular responses"
 
   expect_s3_class(open_orders_out, "data.table")
   expect_equal(open_orders_out$orderId, 1)
+  expect_identical(open_orders_out$expiryReason, "EXECUTION_PRICE_RANGE")
   expect_s3_class(open_orders_out$time, "POSIXct")
 
   expect_s3_class(trades_out, "data.table")

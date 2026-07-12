@@ -76,6 +76,7 @@ reference:
       - spot_get_order_book
       - spot_get_recent_trades
       - spot_get_historical_trades
+      - spot_get_historical_block_trades
       - spot_get_aggregate_trades
       - spot_get_klines
       - spot_get_ui_klines

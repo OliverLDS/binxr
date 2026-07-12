@@ -81,6 +81,39 @@ spot_get_historical_trades <- function(
   .spot_market_maybe_tabular(payload, json_list = json_list)
 }
 
+#' Get Binance Spot historical block trades
+#'
+#' @param symbol Trading pair symbol, for example `"BTCUSDT"`.
+#' @param limit Maximum number of rows to return.
+#' @param fromId Optional block trade identifier to fetch from.
+#' @param json_list If `TRUE`, return the parsed list instead of a `data.table`.
+#' @param config A spot configuration created by [config_spot()].
+#'
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+spot_get_historical_block_trades <- function(
+    symbol,
+    limit = 500,
+    fromId = NULL,
+    json_list = FALSE,
+    config = config_spot()) {
+  .validate_symbol(symbol)
+  .validate_positive_integerish(limit, "limit")
+  .validate_optional_scalar_numeric(fromId, "fromId")
+
+  payload <- .request_public(
+    config,
+    "/api/v3/historicalBlockTrades",
+    query = list(
+      symbol = symbol,
+      limit = limit,
+      fromId = fromId
+    )
+  )
+
+  .spot_market_maybe_tabular(payload, json_list = json_list)
+}
+
 #' Get Binance Spot aggregate trades
 #'
 #' @param symbol Trading pair symbol, for example `"BTCUSDT"`.

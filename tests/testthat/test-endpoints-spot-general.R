@@ -31,6 +31,20 @@ test_that("spot exchange info shapes array parameters as JSON strings", {
   expect_identical(out$showPermissionSets, "false")
 })
 
+test_that("spot exchange info passes through CANCEL_ONLY symbol status", {
+  local_mocked_bindings(
+    .request_public = function(config, path, query = NULL) {
+      list(path = path, query = query)
+    },
+    .package = "binxr"
+  )
+
+  out <- spot_get_exchange_info(symbol_status = "CANCEL_ONLY")
+
+  expect_identical(out$path, "/api/v3/exchangeInfo")
+  expect_identical(out$query$symbolStatus, "CANCEL_ONLY")
+})
+
 test_that("spot ping uses public request helper", {
   local_mocked_bindings(
     .request_public = function(config, path, query = NULL) {
