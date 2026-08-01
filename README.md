@@ -2,7 +2,7 @@
 
 [![Documentation](https://img.shields.io/badge/docs-pkgdown-blue.svg)](https://oliverlds.github.io/binxr/)
 
-An R client for the **Binance REST API** (Spot, Futures, and Options).
+An R client for the **Binance REST API** (Spot, USD-M Futures, and Options).
 
 Documentation site: <https://oliverlds.github.io/binxr/>
 
@@ -10,7 +10,8 @@ Documentation site: <https://oliverlds.github.io/binxr/>
 `binxr` provides lightweight helpers for:
 - Public market data (ticker prices, klines, exchange info)
 - Authenticated endpoints (account info, positions, and order management)
-- Spot, USD-M futures, and options product areas
+- Spot, USD-M Futures (`/fapi`), and Options REST product areas
+- No COIN-M Futures, Portfolio Margin, WebSocket, SBE, or FIX support
 - Data returned as `data.table` for easy downstream analysis
 
 ## Installation

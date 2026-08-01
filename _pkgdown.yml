@@ -28,8 +28,14 @@ reference:
       - futures_get_book_ticker
       - futures_get_order_book
       - futures_get_recent_trades
+      - futures_get_historical_trades
       - futures_get_aggregate_trades
       - futures_get_open_interest
+      - futures_get_symbol_adl_risk
+      - futures_get_rpi_depth
+      - futures_get_index_constituents
+      - futures_get_insurance_balance
+      - futures_get_trading_schedule
       - futures_get_funding_info
       - futures_get_funding_rate_history
       - futures_get_continuous_klines
@@ -54,6 +60,14 @@ reference:
       - futures_set_position_mode
       - futures_place_order
       - futures_test_order
+      - futures_place_algo_order
+      - futures_cancel_algo_order
+      - futures_cancel_all_algo_orders
+      - futures_get_algo_order
+      - futures_get_open_algo_orders
+      - futures_get_algo_orders
+      - futures_modify_order
+      - futures_get_order_amendments
       - futures_cancel_order
       - futures_cancel_all_orders
       - futures_get_open_orders

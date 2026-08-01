@@ -193,6 +193,90 @@ futures_get_recent_trades <- function(symbol, limit = 500, json_list = FALSE, co
   .normalize_time_cols(trades_dt, "time")
 }
 
+#' Get Binance Futures historical trades
+#'
+#' This endpoint returns trades from only the previous month and has request
+#' weight 200. Use it sparingly.
+#'
+#' @param symbol Trading pair symbol, for example `"ETHUSDT"`.
+#' @param limit Maximum number of trades to return. Must not exceed `500`.
+#' @param fromId Optional trade identifier to fetch from.
+#' @param json_list If `TRUE`, return the parsed list instead of a `data.table`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_historical_trades <- function(symbol, limit = 100, fromId = NULL, json_list = FALSE, config = config_futures()) {
+  .validate_symbol(symbol)
+  .futures_validate_limit(limit, max = 500)
+  .validate_optional_scalar_numeric(fromId, "fromId")
+  .validate_json_list_flag(json_list)
+  payload <- .request_public(config, "/fapi/v1/historicalTrades", query = list(symbol = symbol, limit = limit, fromId = fromId))
+  if (isTRUE(json_list)) return(payload)
+  trades_dt <- .maybe_as_dt(payload)
+  trades_dt <- .coerce_numeric_cols(trades_dt, c("id", "price", "qty", "quoteQty"))
+  .normalize_time_cols(trades_dt, "time")
+}
+
+#' Get Binance Futures RPI order book
+#'
+#' @param symbol Trading pair symbol, for example `"ETHUSDT"`.
+#' @param limit Optional depth limit. One of `5`, `10`, `20`, `50`, `100`,
+#'   `500`, or `1000`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A parsed list.
+#' @export
+futures_get_rpi_depth <- function(symbol, limit = NULL, config = config_futures()) {
+  .validate_symbol(symbol)
+  .futures_validate_depth_limit(limit)
+  .request_public(config, "/fapi/v1/rpiDepth", query = list(symbol = symbol, limit = limit))
+}
+
+#' Get Binance Futures index constituents
+#'
+#' @param symbol Trading pair symbol, for example `"ETHUSDT"`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A parsed list.
+#' @export
+futures_get_index_constituents <- function(symbol, config = config_futures()) {
+  .validate_symbol(symbol)
+  .request_public(config, "/fapi/v1/constituents", query = list(symbol = symbol))
+}
+
+#' Get Binance Futures insurance-fund balance snapshots
+#'
+#' @param symbol Optional trading pair symbol.
+#' @param startTime Optional start time in milliseconds since Unix epoch.
+#' @param endTime Optional end time in milliseconds since Unix epoch.
+#' @param limit Maximum number of rows to return. Must not exceed `100`.
+#' @param json_list If `TRUE`, return the parsed list instead of a `data.table`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_insurance_balance <- function(symbol = NULL, startTime = NULL, endTime = NULL, limit = 30, json_list = FALSE, config = config_futures()) {
+  if (!is.null(symbol)) .validate_symbol(symbol)
+  .validate_optional_scalar_numeric(startTime, "startTime")
+  .validate_optional_scalar_numeric(endTime, "endTime")
+  .futures_validate_limit(limit, max = 100)
+  .validate_json_list_flag(json_list)
+  payload <- .request_public(config, "/fapi/v1/insuranceBalance", query = list(symbol = symbol, startTime = startTime, endTime = endTime, limit = limit))
+  if (isTRUE(json_list)) return(payload)
+  .maybe_as_dt(payload)
+}
+
+#' Get Binance Futures trading schedules
+#'
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A parsed list.
+#' @export
+futures_get_trading_schedule <- function(config = config_futures()) {
+  .request_public(config, "/fapi/v1/tradingSchedule")
+}
+
 #' Get Binance Futures aggregate trades
 #'
 #' @param symbol Trading pair symbol, for example `"ETHUSDT"`.
@@ -297,6 +381,18 @@ futures_get_book_ticker <- function(symbol = NULL, config = config_futures()) {
 futures_get_open_interest <- function(symbol, config = config_futures()) {
   .validate_symbol(symbol)
   .request_public(config, "/fapi/v1/openInterest", query = list(symbol = symbol))
+}
+
+#' Get Binance Futures symbol-level ADL risk
+#'
+#' @param symbol Trading pair symbol, for example `"ETHUSDT"`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A parsed list.
+#' @export
+futures_get_symbol_adl_risk <- function(symbol, config = config_futures()) {
+  .validate_symbol(symbol)
+  .request_public(config, "/fapi/v1/symbolAdlRisk", query = list(symbol = symbol))
 }
 
 #' Get Binance Futures funding rate history
@@ -442,6 +538,16 @@ futures_get_continuous_klines <- function(
   .validate_positive_integerish(limit, arg)
   if (limit > max) {
     stop(sprintf("`%s` must be less than or equal to %d.", arg, max), call. = FALSE)
+  }
+  invisible(limit)
+}
+
+#' @noRd
+.futures_validate_depth_limit <- function(limit) {
+  if (is.null(limit)) return(invisible(NULL))
+  .validate_positive_integerish(limit, "limit")
+  if (!(limit %in% c(5L, 10L, 20L, 50L, 100L, 500L, 1000L))) {
+    stop("`limit` must be one of: 5, 10, 20, 50, 100, 500, 1000.", call. = FALSE)
   }
   invisible(limit)
 }
