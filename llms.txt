@@ -13,8 +13,9 @@ Documentation site: <https://oliverlds.github.io/binxr/>
 prices, klines, exchange info) - Authenticated endpoints (account info,
 positions, and order management) - Spot, USD-M Futures (`/fapi`), and
 Options REST product areas - No COIN-M Futures, Portfolio Margin,
-WebSocket, SBE, or FIX support - Data returned as `data.table` for easy
-downstream analysis
+WebSocket, SBE, or FIX support - Options block-trade and market-maker
+endpoints are intentionally excluded - Data returned as `data.table` for
+easy downstream analysis
 
 ## Installation
 
@@ -166,6 +167,10 @@ Developed by **Oliver Zhou**, 2025.
 - [`futures_get_account()`](https://oliverlds.github.io/binxr/reference/futures_get_account.md)
   [`get_fapi_account()`](https://oliverlds.github.io/binxr/reference/futures_get_account.md)
   : Get Binance Futures account info
+- [`futures_get_account_config()`](https://oliverlds.github.io/binxr/reference/futures_get_account_config.md)
+  : Get Binance Futures account configuration
+- [`futures_get_api_trading_status()`](https://oliverlds.github.io/binxr/reference/futures_get_api_trading_status.md)
+  : Get Binance Futures API trading status
 - [`futures_get_position_risk()`](https://oliverlds.github.io/binxr/reference/futures_get_position_risk.md)
   [`get_fapi_account_position_risk()`](https://oliverlds.github.io/binxr/reference/futures_get_position_risk.md)
   : Get Binance Futures position risk
@@ -183,6 +188,12 @@ Developed by **Oliver Zhou**, 2025.
   : Get Binance Futures multi-assets mode
 - [`futures_get_commission_rate()`](https://oliverlds.github.io/binxr/reference/futures_get_commission_rate.md)
   : Get Binance Futures commission rate
+- [`futures_get_symbol_config()`](https://oliverlds.github.io/binxr/reference/futures_get_symbol_config.md)
+  : Get Binance Futures symbol configuration
+- [`futures_get_leverage_brackets()`](https://oliverlds.github.io/binxr/reference/futures_get_leverage_brackets.md)
+  : Get Binance Futures leverage brackets
+- [`futures_get_adl_quantile()`](https://oliverlds.github.io/binxr/reference/futures_get_adl_quantile.md)
+  : Get Binance Futures ADL quantiles
 - [`futures_get_order_rate_limit()`](https://oliverlds.github.io/binxr/reference/futures_get_order_rate_limit.md)
   : Get Binance Futures order rate limits
 
@@ -218,6 +229,18 @@ Developed by **Oliver Zhou**, 2025.
   : Modify a Binance Futures limit order
 - [`futures_get_order_amendments()`](https://oliverlds.github.io/binxr/reference/futures_get_order_amendments.md)
   : Get Binance Futures order modification history
+- [`futures_place_batch_orders()`](https://oliverlds.github.io/binxr/reference/futures_place_batch_orders.md)
+  : Place multiple Binance Futures orders
+- [`futures_modify_batch_orders()`](https://oliverlds.github.io/binxr/reference/futures_modify_batch_orders.md)
+  : Modify multiple Binance Futures orders
+- [`futures_cancel_batch_orders()`](https://oliverlds.github.io/binxr/reference/futures_cancel_batch_orders.md)
+  : Cancel multiple Binance Futures orders
+- [`futures_modify_position_margin()`](https://oliverlds.github.io/binxr/reference/futures_modify_position_margin.md)
+  : Change Binance Futures position margin
+- [`futures_get_position_margin_history()`](https://oliverlds.github.io/binxr/reference/futures_get_position_margin_history.md)
+  : Get Binance Futures position margin history
+- [`futures_get_income_history()`](https://oliverlds.github.io/binxr/reference/futures_get_income_history.md)
+  : Get Binance Futures income history
 - [`futures_cancel_order()`](https://oliverlds.github.io/binxr/reference/futures_cancel_order.md)
   [`cancel_fapi_trade_order()`](https://oliverlds.github.io/binxr/reference/futures_cancel_order.md)
   : Cancel a Binance Futures order
@@ -233,6 +256,8 @@ Developed by **Oliver Zhou**, 2025.
 - [`futures_get_order()`](https://oliverlds.github.io/binxr/reference/futures_get_order.md)
   [`get_fapi_trade_order()`](https://oliverlds.github.io/binxr/reference/futures_get_order.md)
   : Get a Binance Futures order
+- [`futures_get_open_order()`](https://oliverlds.github.io/binxr/reference/futures_get_open_order.md)
+  : Get a current open Binance Futures order
 - [`futures_get_account_trades()`](https://oliverlds.github.io/binxr/reference/futures_get_account_trades.md)
   : Get Binance Futures account trades
 - [`futures_get_force_orders()`](https://oliverlds.github.io/binxr/reference/futures_get_force_orders.md)
@@ -379,8 +404,20 @@ Developed by **Oliver Zhou**, 2025.
 
 - [`options_get_margin_account()`](https://oliverlds.github.io/binxr/reference/options_get_margin_account.md)
   : Get Binance Options margin account information
+- [`options_start_user_data_stream()`](https://oliverlds.github.io/binxr/reference/options_start_user_data_stream.md)
+  : Start a Binance Options user data stream
+- [`options_keepalive_user_data_stream()`](https://oliverlds.github.io/binxr/reference/options_keepalive_user_data_stream.md)
+  : Keep alive a Binance Options user data stream
+- [`options_close_user_data_stream()`](https://oliverlds.github.io/binxr/reference/options_close_user_data_stream.md)
+  : Close a Binance Options user data stream
 - [`options_place_order()`](https://oliverlds.github.io/binxr/reference/options_place_order.md)
   : Place a Binance Options order
+- [`options_place_batch_orders()`](https://oliverlds.github.io/binxr/reference/options_place_batch_orders.md)
+  : Place multiple Binance Options orders
+- [`options_cancel_batch_orders()`](https://oliverlds.github.io/binxr/reference/options_cancel_batch_orders.md)
+  : Cancel multiple Binance Options orders
+- [`options_sign_stock_contract()`](https://oliverlds.github.io/binxr/reference/options_sign_stock_contract.md)
+  : Sign the Binance Options stock contract
 - [`options_get_order()`](https://oliverlds.github.io/binxr/reference/options_get_order.md)
   : Get a Binance Options order
 - [`options_cancel_order()`](https://oliverlds.github.io/binxr/reference/options_cancel_order.md)

@@ -1,6 +1,18 @@
 # Changelog
 
+## binxr (development version)
+
+- Fixed the USD-M Futures position-mode endpoint path.
+- Added USD-M Futures batch orders, position margin, income history,
+  account configuration, symbol configuration, API trading status,
+  leverage brackets, ADL quantiles, and current open-order helpers.
+- Added Options batch orders, stock-contract signing, and API-key-only
+  user data stream listen-key helpers. Options block-trade and
+  market-maker endpoints remain intentionally out of scope.
+
 ## binxr 0.1.2
+
+CRAN release: 2026-08-02
 
 - Added USD-M Futures Algo Service helpers for conditional orders,
   replacing order types no longer accepted by `/fapi/v1/order`.
