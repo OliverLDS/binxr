@@ -31,6 +31,15 @@ reference:
       - futures_get_historical_trades
       - futures_get_aggregate_trades
       - futures_get_open_interest
+      - futures_get_open_interest_history
+      - futures_get_global_long_short_ratio
+      - futures_get_top_long_short_account_ratio
+      - futures_get_top_long_short_position_ratio
+      - futures_get_taker_buy_sell_volume
+      - futures_get_basis
+      - futures_get_delivery_prices
+      - futures_get_index_info
+      - futures_get_asset_index
       - futures_get_symbol_adl_risk
       - futures_get_rpi_depth
       - futures_get_index_constituents
@@ -45,6 +54,9 @@ reference:
   - title: Futures Account
     contents:
       - futures_get_account
+      - futures_start_user_data_stream
+      - futures_keepalive_user_data_stream
+      - futures_close_user_data_stream
       - futures_get_account_config
       - futures_get_api_trading_status
       - futures_get_position_risk

@@ -260,3 +260,37 @@ futures_get_adl_quantile <- function(symbol = NULL, json_list = FALSE, config = 
   if (isTRUE(json_list)) return(payload)
   .maybe_as_dt(payload)
 }
+
+#' Start a Binance Futures user data stream
+#'
+#' @param config A futures configuration created by [config_futures()] with an API key.
+#'
+#' @return A parsed list containing a listen key.
+#' @export
+futures_start_user_data_stream <- function(config = config_futures()) {
+  .request_api_key(config, "/fapi/v1/listenKey", params = list(), method = "POST")
+}
+
+#' Keep alive a Binance Futures user data stream
+#'
+#' @param listen_key Listen key returned by `futures_start_user_data_stream()`.
+#' @param config A futures configuration created by [config_futures()] with an API key.
+#'
+#' @return A parsed list.
+#' @export
+futures_keepalive_user_data_stream <- function(listen_key, config = config_futures()) {
+  .validate_scalar_character(listen_key, "listen_key")
+  .request_api_key(config, "/fapi/v1/listenKey", params = list(listenKey = listen_key), method = "PUT")
+}
+
+#' Close a Binance Futures user data stream
+#'
+#' @param listen_key Listen key returned by `futures_start_user_data_stream()`.
+#' @param config A futures configuration created by [config_futures()] with an API key.
+#'
+#' @return A parsed list.
+#' @export
+futures_close_user_data_stream <- function(listen_key, config = config_futures()) {
+  .validate_scalar_character(listen_key, "listen_key")
+  .request_api_key(config, "/fapi/v1/listenKey", params = list(listenKey = listen_key), method = "DELETE")
+}

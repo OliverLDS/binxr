@@ -73,3 +73,23 @@ test_that("futures account and risk helpers use current signed endpoints", {
   expect_identical(brackets$path, "/fapi/v1/leverageBracket")
   expect_identical(adl$path, "/fapi/v1/adlQuantile")
 })
+
+test_that("futures user data stream helpers use API-key authentication", {
+  cfg <- config_futures(api_key = "k")
+  local_mocked_bindings(
+    .request_api_key = function(config, path, params = NULL, method = c("GET", "POST", "PUT", "DELETE")) {
+      list(path = path, params = params, method = method)
+    },
+    .package = "binxr"
+  )
+
+  started <- futures_start_user_data_stream(config = cfg)
+  kept_alive <- futures_keepalive_user_data_stream("listen", config = cfg)
+  closed <- futures_close_user_data_stream("listen", config = cfg)
+
+  expect_identical(started$path, "/fapi/v1/listenKey")
+  expect_identical(started$method, "POST")
+  expect_identical(kept_alive$params$listenKey, "listen")
+  expect_identical(kept_alive$method, "PUT")
+  expect_identical(closed$method, "DELETE")
+})

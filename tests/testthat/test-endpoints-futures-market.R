@@ -89,3 +89,50 @@ test_that("new futures market endpoints validate and shape responses", {
   expect_identical(adl_risk_out$path, "/fapi/v1/symbolAdlRisk")
   expect_identical(adl_risk_out$query$symbol, "BTCUSDT")
 })
+
+test_that("futures data endpoints validate and shape responses", {
+  cfg <- config_futures()
+  expect_error(futures_get_open_interest_history("BTCUSDT", period = "3m", config = cfg), "period")
+  expect_error(futures_get_delivery_prices("BTCUSDT", limit = 101, config = cfg), "limit")
+
+  local_mocked_bindings(
+    .request_public = function(config, path, query = NULL) {
+      switch(
+        path,
+        "/futures/data/openInterestHist" = list(list(sumOpenInterest = "2", sumOpenInterestValue = "200", timestamp = 1000)),
+        "/futures/data/globalLongShortAccountRatio" = list(list(longShortRatio = "1.2", longAccount = "0.6", shortAccount = "0.5", timestamp = 1000)),
+        "/futures/data/topLongShortAccountRatio" = list(list(longShortRatio = "1.3", longAccount = "0.7", shortAccount = "0.5", timestamp = 1000)),
+        "/futures/data/topLongShortPositionRatio" = list(list(longShortRatio = "1.4", longAccount = "0.7", shortAccount = "0.5", timestamp = 1000)),
+        "/futures/data/takerlongshortRatio" = list(list(buySellRatio = "1.1", buyVol = "10", sellVol = "9", timestamp = 1000)),
+        "/futures/data/basis" = list(list(basis = "1", basisRate = "0.01", annualizedBasisRate = "0.1", indexPrice = "100", futuresPrice = "101", timestamp = 1000)),
+        "/futures/data/delivery-price" = list(list(deliveryPrice = "100", deliveryTime = 1000)),
+        "/fapi/v1/assetIndex" = list(list(asset = "USDT", assetIndex = "1", timestamp = 1000)),
+        list(path = path, query = query)
+      )
+    },
+    .package = "binxr"
+  )
+
+  open_interest <- futures_get_open_interest_history("BTCUSDT", period = "1h", limit = 10, config = cfg)
+  global_ratio <- futures_get_global_long_short_ratio("BTCUSDT", config = cfg)
+  account_ratio <- futures_get_top_long_short_account_ratio("BTCUSDT", config = cfg)
+  position_ratio <- futures_get_top_long_short_position_ratio("BTCUSDT", config = cfg)
+  taker_volume <- futures_get_taker_buy_sell_volume("BTCUSDT", config = cfg)
+  basis <- futures_get_basis("BTCUSDT", "PERPETUAL", config = cfg)
+  delivery <- futures_get_delivery_prices("BTCUSDT", config = cfg)
+  index_info <- futures_get_index_info("BTCUSDT", json_list = TRUE, config = cfg)
+  asset_index <- futures_get_asset_index("USDT", config = cfg)
+
+  expect_s3_class(open_interest, "data.table")
+  expect_equal(open_interest$sumOpenInterest, 2)
+  expect_s3_class(open_interest$timestamp, "POSIXct")
+  expect_equal(global_ratio$longShortRatio, 1.2)
+  expect_equal(account_ratio$longAccount, 0.7)
+  expect_equal(position_ratio$shortAccount, 0.5)
+  expect_equal(taker_volume$buyVol, 10)
+  expect_equal(basis$futuresPrice, 101)
+  expect_s3_class(delivery$deliveryTime, "POSIXct")
+  expect_identical(index_info$path, "/fapi/v1/indexInfo")
+  expect_equal(asset_index$assetIndex, 1)
+  expect_s3_class(asset_index$timestamp, "POSIXct")
+})

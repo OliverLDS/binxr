@@ -383,6 +383,134 @@ futures_get_open_interest <- function(symbol, config = config_futures()) {
   .request_public(config, "/fapi/v1/openInterest", query = list(symbol = symbol))
 }
 
+#' Get Binance Futures open interest history
+#'
+#' @param symbol Trading pair symbol, for example `"ETHUSDT"`.
+#' @param period Aggregation period. One of `"5m"`, `"15m"`, `"30m"`,
+#'   `"1h"`, `"2h"`, `"4h"`, `"6h"`, `"12h"`, or `"1d"`.
+#' @param startTime Optional start time in milliseconds since Unix epoch.
+#' @param endTime Optional end time in milliseconds since Unix epoch.
+#' @param limit Maximum number of rows to return. Must not exceed `500`.
+#' @param json_list If `TRUE`, return the parsed list instead of a `data.table`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_open_interest_history <- function(symbol, period = "5m", startTime = NULL, endTime = NULL, limit = 30, json_list = FALSE, config = config_futures()) {
+  .futures_get_periodic_data("/futures/data/openInterestHist", symbol, period, startTime, endTime, limit, json_list, config, c("sumOpenInterest", "sumOpenInterestValue", "CMCCirculatingSupply"))
+}
+
+#' Get Binance Futures global long-short account ratio
+#'
+#' @inheritParams futures_get_open_interest_history
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_global_long_short_ratio <- function(symbol, period = "5m", startTime = NULL, endTime = NULL, limit = 30, json_list = FALSE, config = config_futures()) {
+  .futures_get_periodic_data("/futures/data/globalLongShortAccountRatio", symbol, period, startTime, endTime, limit, json_list, config, c("longShortRatio", "longAccount", "shortAccount"))
+}
+
+#' Get Binance Futures top-trader long-short account ratio
+#'
+#' @inheritParams futures_get_open_interest_history
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_top_long_short_account_ratio <- function(symbol, period = "5m", startTime = NULL, endTime = NULL, limit = 30, json_list = FALSE, config = config_futures()) {
+  .futures_get_periodic_data("/futures/data/topLongShortAccountRatio", symbol, period, startTime, endTime, limit, json_list, config, c("longShortRatio", "longAccount", "shortAccount"))
+}
+
+#' Get Binance Futures top-trader long-short position ratio
+#'
+#' @inheritParams futures_get_open_interest_history
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_top_long_short_position_ratio <- function(symbol, period = "5m", startTime = NULL, endTime = NULL, limit = 30, json_list = FALSE, config = config_futures()) {
+  .futures_get_periodic_data("/futures/data/topLongShortPositionRatio", symbol, period, startTime, endTime, limit, json_list, config, c("longShortRatio", "longAccount", "shortAccount"))
+}
+
+#' Get Binance Futures taker buy-sell volume
+#'
+#' @inheritParams futures_get_open_interest_history
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_taker_buy_sell_volume <- function(symbol, period = "5m", startTime = NULL, endTime = NULL, limit = 30, json_list = FALSE, config = config_futures()) {
+  .futures_get_periodic_data("/futures/data/takerlongshortRatio", symbol, period, startTime, endTime, limit, json_list, config, c("buySellRatio", "buyVol", "sellVol"))
+}
+
+#' Get Binance Futures basis history
+#'
+#' @param pair Futures pair, for example `"BTCUSDT"`.
+#' @param contract_type One of `"PERPETUAL"`, `"CURRENT_MONTH"`,
+#'   `"NEXT_MONTH"`, `"CURRENT_QUARTER"`, or `"NEXT_QUARTER"`.
+#' @inheritParams futures_get_open_interest_history
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_basis <- function(pair, contract_type = c("PERPETUAL", "CURRENT_MONTH", "NEXT_MONTH", "CURRENT_QUARTER", "NEXT_QUARTER"), period = "5m", startTime = NULL, endTime = NULL, limit = 30, json_list = FALSE, config = config_futures()) {
+  .validate_symbol(pair, "pair")
+  contract_type <- match.arg(contract_type)
+  .futures_validate_period(period)
+  .validate_optional_scalar_numeric(startTime, "startTime")
+  .validate_optional_scalar_numeric(endTime, "endTime")
+  .futures_validate_limit(limit, max = 500)
+  .validate_json_list_flag(json_list)
+  payload <- .request_public(config, "/futures/data/basis", query = list(pair = pair, contractType = contract_type, period = period, startTime = startTime, endTime = endTime, limit = limit))
+  if (isTRUE(json_list)) return(payload)
+  basis_dt <- .maybe_as_dt(payload)
+  basis_dt <- .coerce_numeric_cols(basis_dt, c("basis", "basisRate", "annualizedBasisRate", "indexPrice", "futuresPrice"))
+  .normalize_time_cols(basis_dt, "timestamp")
+}
+
+#' Get Binance Futures delivery prices
+#'
+#' @param pair Futures pair, for example `"BTCUSDT"`.
+#' @param startTime Optional start time in milliseconds since Unix epoch.
+#' @param endTime Optional end time in milliseconds since Unix epoch.
+#' @param limit Maximum number of rows to return. Must not exceed `100`.
+#' @param json_list If `TRUE`, return the parsed list instead of a `data.table`.
+#' @param config A futures configuration created by [config_futures()].
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_delivery_prices <- function(pair, startTime = NULL, endTime = NULL, limit = 30, json_list = FALSE, config = config_futures()) {
+  .validate_symbol(pair, "pair")
+  .validate_optional_scalar_numeric(startTime, "startTime")
+  .validate_optional_scalar_numeric(endTime, "endTime")
+  .futures_validate_limit(limit, max = 100)
+  .validate_json_list_flag(json_list)
+  payload <- .request_public(config, "/futures/data/delivery-price", query = list(pair = pair, startTime = startTime, endTime = endTime, limit = limit))
+  if (isTRUE(json_list)) return(payload)
+  delivery_dt <- .maybe_as_dt(payload)
+  delivery_dt <- .coerce_numeric_cols(delivery_dt, "deliveryPrice")
+  .normalize_time_cols(delivery_dt, "deliveryTime")
+}
+
+#' Get Binance Futures composite index information
+#'
+#' @param symbol Optional composite-index symbol.
+#' @param json_list If `TRUE`, return the parsed list instead of a `data.table`.
+#' @param config A futures configuration created by [config_futures()].
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_index_info <- function(symbol = NULL, json_list = FALSE, config = config_futures()) {
+  if (!is.null(symbol)) .validate_symbol(symbol)
+  .validate_json_list_flag(json_list)
+  .maybe_as_dt(.request_public(config, "/fapi/v1/indexInfo", query = list(symbol = symbol)), json_list)
+}
+
+#' Get Binance Futures asset index prices
+#'
+#' @param asset Optional asset symbol, for example `"USDT"`.
+#' @param json_list If `TRUE`, return the parsed list instead of a `data.table`.
+#' @param config A futures configuration created by [config_futures()].
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_asset_index <- function(asset = NULL, json_list = FALSE, config = config_futures()) {
+  if (!is.null(asset)) .validate_scalar_character(asset, "asset")
+  .validate_json_list_flag(json_list)
+  asset_dt <- .maybe_as_dt(.request_public(config, "/fapi/v1/assetIndex", query = list(asset = asset)), json_list)
+  if (isTRUE(json_list)) return(asset_dt)
+  asset_dt <- .coerce_numeric_cols(asset_dt, c("assetIndex", "bidBuffer", "askBuffer", "bidRate", "askRate", "autoExchangeBidRate", "autoExchangeAskRate"))
+  .normalize_time_cols(asset_dt, "timestamp")
+}
+
 #' Get Binance Futures symbol-level ADL risk
 #'
 #' @param symbol Trading pair symbol, for example `"ETHUSDT"`.
@@ -540,6 +668,26 @@ futures_get_continuous_klines <- function(
     stop(sprintf("`%s` must be less than or equal to %d.", arg, max), call. = FALSE)
   }
   invisible(limit)
+}
+
+#' @noRd
+.futures_validate_period <- function(period) {
+  .validate_one_of(period, c("5m", "15m", "30m", "1h", "2h", "4h", "6h", "12h", "1d"), "period")
+}
+
+#' @noRd
+.futures_get_periodic_data <- function(path, symbol, period, startTime, endTime, limit, json_list, config, numeric_cols) {
+  .validate_symbol(symbol)
+  .futures_validate_period(period)
+  .validate_optional_scalar_numeric(startTime, "startTime")
+  .validate_optional_scalar_numeric(endTime, "endTime")
+  .futures_validate_limit(limit, max = 500)
+  .validate_json_list_flag(json_list)
+  payload <- .request_public(config, path, query = list(symbol = symbol, period = period, startTime = startTime, endTime = endTime, limit = limit))
+  if (isTRUE(json_list)) return(payload)
+  data_dt <- .maybe_as_dt(payload)
+  data_dt <- .coerce_numeric_cols(data_dt, numeric_cols)
+  .normalize_time_cols(data_dt, "timestamp")
 }
 
 #' @noRd
