@@ -49,6 +49,9 @@
     <loc>https://oliverlds.github.io/binxr/reference/futures_cancel_all_orders.html</loc>
   </url>
   <url>
+    <loc>https://oliverlds.github.io/binxr/reference/futures_cancel_batch_orders.html</loc>
+  </url>
+  <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_cancel_order.html</loc>
   </url>
   <url>
@@ -61,10 +64,16 @@
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_account.html</loc>
   </url>
   <url>
+    <loc>https://oliverlds.github.io/binxr/reference/futures_get_account_config.html</loc>
+  </url>
+  <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_account_summary.html</loc>
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_account_trades.html</loc>
+  </url>
+  <url>
+    <loc>https://oliverlds.github.io/binxr/reference/futures_get_adl_quantile.html</loc>
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_aggregate_trades.html</loc>
@@ -74,6 +83,9 @@
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_algo_orders.html</loc>
+  </url>
+  <url>
+    <loc>https://oliverlds.github.io/binxr/reference/futures_get_api_trading_status.html</loc>
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_balance.html</loc>
@@ -103,6 +115,9 @@
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_historical_trades.html</loc>
   </url>
   <url>
+    <loc>https://oliverlds.github.io/binxr/reference/futures_get_income_history.html</loc>
+  </url>
+  <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_index_constituents.html</loc>
   </url>
   <url>
@@ -113,6 +128,9 @@
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_klines.html</loc>
+  </url>
+  <url>
+    <loc>https://oliverlds.github.io/binxr/reference/futures_get_leverage_brackets.html</loc>
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_mark_price.html</loc>
@@ -128,6 +146,9 @@
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_open_interest.html</loc>
+  </url>
+  <url>
+    <loc>https://oliverlds.github.io/binxr/reference/futures_get_open_order.html</loc>
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_open_orders.html</loc>
@@ -146,6 +167,9 @@
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_orders.html</loc>
+  </url>
+  <url>
+    <loc>https://oliverlds.github.io/binxr/reference/futures_get_position_margin_history.html</loc>
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_position_mode.html</loc>
@@ -172,19 +196,31 @@
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_symbol_adl_risk.html</loc>
   </url>
   <url>
+    <loc>https://oliverlds.github.io/binxr/reference/futures_get_symbol_config.html</loc>
+  </url>
+  <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_ticker_price.html</loc>
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_get_trading_schedule.html</loc>
   </url>
   <url>
+    <loc>https://oliverlds.github.io/binxr/reference/futures_modify_batch_orders.html</loc>
+  </url>
+  <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_modify_order.html</loc>
+  </url>
+  <url>
+    <loc>https://oliverlds.github.io/binxr/reference/futures_modify_position_margin.html</loc>
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_ping.html</loc>
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_place_algo_order.html</loc>
+  </url>
+  <url>
+    <loc>https://oliverlds.github.io/binxr/reference/futures_place_batch_orders.html</loc>
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/futures_place_order.html</loc>
@@ -214,7 +250,13 @@
     <loc>https://oliverlds.github.io/binxr/reference/options_cancel_all_orders_by_underlying.html</loc>
   </url>
   <url>
+    <loc>https://oliverlds.github.io/binxr/reference/options_cancel_batch_orders.html</loc>
+  </url>
+  <url>
     <loc>https://oliverlds.github.io/binxr/reference/options_cancel_order.html</loc>
+  </url>
+  <url>
+    <loc>https://oliverlds.github.io/binxr/reference/options_close_user_data_stream.html</loc>
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/options_get_24hr_ticker.html</loc>
@@ -277,10 +319,22 @@
     <loc>https://oliverlds.github.io/binxr/reference/options_get_server_time.html</loc>
   </url>
   <url>
+    <loc>https://oliverlds.github.io/binxr/reference/options_keepalive_user_data_stream.html</loc>
+  </url>
+  <url>
     <loc>https://oliverlds.github.io/binxr/reference/options_ping.html</loc>
   </url>
   <url>
+    <loc>https://oliverlds.github.io/binxr/reference/options_place_batch_orders.html</loc>
+  </url>
+  <url>
     <loc>https://oliverlds.github.io/binxr/reference/options_place_order.html</loc>
+  </url>
+  <url>
+    <loc>https://oliverlds.github.io/binxr/reference/options_sign_stock_contract.html</loc>
+  </url>
+  <url>
+    <loc>https://oliverlds.github.io/binxr/reference/options_start_user_data_stream.html</loc>
   </url>
   <url>
     <loc>https://oliverlds.github.io/binxr/reference/round_price_qty.html</loc>
