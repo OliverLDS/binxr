@@ -47,6 +47,24 @@
   : Get Binance Futures aggregate trades
 - [`futures_get_open_interest()`](https://oliverlds.github.io/binxr/reference/futures_get_open_interest.md)
   : Get Binance Futures open interest
+- [`futures_get_open_interest_history()`](https://oliverlds.github.io/binxr/reference/futures_get_open_interest_history.md)
+  : Get Binance Futures open interest history
+- [`futures_get_global_long_short_ratio()`](https://oliverlds.github.io/binxr/reference/futures_get_global_long_short_ratio.md)
+  : Get Binance Futures global long-short account ratio
+- [`futures_get_top_long_short_account_ratio()`](https://oliverlds.github.io/binxr/reference/futures_get_top_long_short_account_ratio.md)
+  : Get Binance Futures top-trader long-short account ratio
+- [`futures_get_top_long_short_position_ratio()`](https://oliverlds.github.io/binxr/reference/futures_get_top_long_short_position_ratio.md)
+  : Get Binance Futures top-trader long-short position ratio
+- [`futures_get_taker_buy_sell_volume()`](https://oliverlds.github.io/binxr/reference/futures_get_taker_buy_sell_volume.md)
+  : Get Binance Futures taker buy-sell volume
+- [`futures_get_basis()`](https://oliverlds.github.io/binxr/reference/futures_get_basis.md)
+  : Get Binance Futures basis history
+- [`futures_get_delivery_prices()`](https://oliverlds.github.io/binxr/reference/futures_get_delivery_prices.md)
+  : Get Binance Futures delivery prices
+- [`futures_get_index_info()`](https://oliverlds.github.io/binxr/reference/futures_get_index_info.md)
+  : Get Binance Futures composite index information
+- [`futures_get_asset_index()`](https://oliverlds.github.io/binxr/reference/futures_get_asset_index.md)
+  : Get Binance Futures asset index prices
 - [`futures_get_symbol_adl_risk()`](https://oliverlds.github.io/binxr/reference/futures_get_symbol_adl_risk.md)
   : Get Binance Futures symbol-level ADL risk
 - [`futures_get_rpi_depth()`](https://oliverlds.github.io/binxr/reference/futures_get_rpi_depth.md)
@@ -75,6 +93,12 @@
 - [`futures_get_account()`](https://oliverlds.github.io/binxr/reference/futures_get_account.md)
   [`get_fapi_account()`](https://oliverlds.github.io/binxr/reference/futures_get_account.md)
   : Get Binance Futures account info
+- [`futures_start_user_data_stream()`](https://oliverlds.github.io/binxr/reference/futures_start_user_data_stream.md)
+  : Start a Binance Futures user data stream
+- [`futures_keepalive_user_data_stream()`](https://oliverlds.github.io/binxr/reference/futures_keepalive_user_data_stream.md)
+  : Keep alive a Binance Futures user data stream
+- [`futures_close_user_data_stream()`](https://oliverlds.github.io/binxr/reference/futures_close_user_data_stream.md)
+  : Close a Binance Futures user data stream
 - [`futures_get_account_config()`](https://oliverlds.github.io/binxr/reference/futures_get_account_config.md)
   : Get Binance Futures account configuration
 - [`futures_get_api_trading_status()`](https://oliverlds.github.io/binxr/reference/futures_get_api_trading_status.md)

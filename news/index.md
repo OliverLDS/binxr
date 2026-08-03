@@ -2,6 +2,10 @@
 
 ## binxr (development version)
 
+- Added USD-M Futures market-data wrappers for open-interest history,
+  long-short ratios, taker buy-sell volume, basis, delivery prices,
+  composite index information, and asset index prices. Added Futures
+  API-key-only user data stream listen-key helpers.
 - Fixed the USD-M Futures position-mode endpoint path.
 - Added USD-M Futures batch orders, position margin, income history,
   account configuration, symbol configuration, API trading status,
