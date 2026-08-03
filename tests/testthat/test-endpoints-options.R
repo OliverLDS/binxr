@@ -68,3 +68,34 @@ test_that("options market/account/trade endpoints validate and shape responses",
   expect_s3_class(positions, "data.table")
   expect_s3_class(funding, "data.table")
 })
+
+test_that("options batch, stock-contract, and listen-key helpers use documented paths", {
+  cfg_signed <- config_options(api_key = "k", secret_key = "s")
+  cfg_api_key <- config_options(api_key = "k", secret_key = NULL)
+
+  local_mocked_bindings(
+    .request_signed = function(config, path, params = NULL, method = c("GET", "POST", "PUT", "DELETE")) {
+      list(path = path, params = params, method = method)
+    },
+    .request_api_key = function(config, path, params = NULL, method = c("GET", "POST", "PUT", "DELETE")) {
+      list(path = path, params = params, method = method)
+    },
+    .package = "binxr"
+  )
+
+  place <- options_place_batch_orders(list(list(symbol = "BTC-200730-9000-C", side = "BUY", quantity = 1, price = 100)), config = cfg_signed)
+  cancel <- options_cancel_batch_orders(c(1, 2), config = cfg_signed)
+  contract <- options_sign_stock_contract(config = cfg_signed)
+  start <- options_start_user_data_stream(config = cfg_api_key)
+  keepalive <- options_keepalive_user_data_stream("listen-key", config = cfg_api_key)
+  close <- options_close_user_data_stream("listen-key", config = cfg_api_key)
+
+  expect_identical(place$path, "/eapi/v1/batchOrders")
+  expect_identical(place$method, "POST")
+  expect_identical(cancel$params$orderIds, "[1,2]")
+  expect_identical(contract$path, "/eapi/v1/stock/contract")
+  expect_identical(start$method, "POST")
+  expect_identical(keepalive$method, "PUT")
+  expect_identical(keepalive$params$listenKey, "listen-key")
+  expect_identical(close$method, "DELETE")
+})

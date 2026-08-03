@@ -190,3 +190,73 @@ futures_get_order_rate_limit <- function(json_list = FALSE, config = config_futu
 
   .coerce_numeric_cols(.maybe_as_dt(payload), c("intervalNum", "limit"))
 }
+
+#' Get Binance Futures account configuration
+#'
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A parsed list.
+#' @export
+futures_get_account_config <- function(config = config_futures()) {
+  .request_signed(config, "/fapi/v1/accountConfig", params = list(), method = "GET")
+}
+
+#' Get Binance Futures symbol configuration
+#'
+#' @param symbol Optional trading pair symbol.
+#' @param json_list If `TRUE`, return the parsed list instead of a `data.table`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_symbol_config <- function(symbol = NULL, json_list = FALSE, config = config_futures()) {
+  if (!is.null(symbol)) .validate_symbol(symbol)
+  .validate_json_list_flag(json_list)
+  payload <- .request_signed(config, "/fapi/v1/symbolConfig", params = list(symbol = symbol), method = "GET")
+  if (isTRUE(json_list)) return(payload)
+  .maybe_as_dt(payload)
+}
+
+#' Get Binance Futures API trading status
+#'
+#' @param symbol Optional trading pair symbol.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A parsed list.
+#' @export
+futures_get_api_trading_status <- function(symbol = NULL, config = config_futures()) {
+  if (!is.null(symbol)) .validate_symbol(symbol)
+  .request_signed(config, "/fapi/v1/apiTradingStatus", params = list(symbol = symbol), method = "GET")
+}
+
+#' Get Binance Futures leverage brackets
+#'
+#' @param symbol Optional trading pair symbol.
+#' @param json_list If `TRUE`, return the parsed list instead of a `data.table`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_leverage_brackets <- function(symbol = NULL, json_list = FALSE, config = config_futures()) {
+  if (!is.null(symbol)) .validate_symbol(symbol)
+  .validate_json_list_flag(json_list)
+  payload <- .request_signed(config, "/fapi/v1/leverageBracket", params = list(symbol = symbol), method = "GET")
+  if (isTRUE(json_list)) return(payload)
+  .maybe_as_dt(payload)
+}
+
+#' Get Binance Futures ADL quantiles
+#'
+#' @param symbol Optional trading pair symbol.
+#' @param json_list If `TRUE`, return the parsed list instead of a `data.table`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_adl_quantile <- function(symbol = NULL, json_list = FALSE, config = config_futures()) {
+  if (!is.null(symbol)) .validate_symbol(symbol)
+  .validate_json_list_flag(json_list)
+  payload <- .request_signed(config, "/fapi/v1/adlQuantile", params = list(symbol = symbol), method = "GET")
+  if (isTRUE(json_list)) return(payload)
+  .maybe_as_dt(payload)
+}

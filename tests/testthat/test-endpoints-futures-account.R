@@ -50,3 +50,26 @@ test_that("deprecated futures account aliases warn and forward", {
   expect_s3_class(out, "data.table")
   expect_equal(out$availableBalance, 7)
 })
+
+test_that("futures account and risk helpers use current signed endpoints", {
+  cfg <- config_futures(api_key = "k", secret_key = "s")
+
+  local_mocked_bindings(
+    .request_signed = function(config, path, params = NULL, method = c("GET", "POST", "PUT", "DELETE")) {
+      list(path = path, params = params, method = method)
+    },
+    .package = "binxr"
+  )
+
+  account_config <- futures_get_account_config(config = cfg)
+  symbol_config <- futures_get_symbol_config("BTCUSDT", json_list = TRUE, config = cfg)
+  status <- futures_get_api_trading_status("BTCUSDT", config = cfg)
+  brackets <- futures_get_leverage_brackets("BTCUSDT", json_list = TRUE, config = cfg)
+  adl <- futures_get_adl_quantile("BTCUSDT", json_list = TRUE, config = cfg)
+
+  expect_identical(account_config$path, "/fapi/v1/accountConfig")
+  expect_identical(symbol_config$path, "/fapi/v1/symbolConfig")
+  expect_identical(status$params$symbol, "BTCUSDT")
+  expect_identical(brackets$path, "/fapi/v1/leverageBracket")
+  expect_identical(adl$path, "/fapi/v1/adlQuantile")
+})

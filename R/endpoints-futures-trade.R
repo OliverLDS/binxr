@@ -68,7 +68,7 @@ futures_set_position_mode <- function(dual_side_position = TRUE, config = config
   .validate_scalar_logical(dual_side_position, "dual_side_position")
   .request_signed(
     config,
-    "/fapi/v1/positionSide",
+    "/fapi/v1/positionSide/dual",
     params = list(dualSidePosition = if (dual_side_position) "true" else "false"),
     method = "POST"
   )
@@ -349,6 +349,187 @@ futures_get_algo_orders <- function(symbol, startTime = NULL, endTime = NULL, li
   .futures_maybe_as_orders_dt(payload, json_list)
 }
 
+#' Place multiple Binance Futures orders
+#'
+#' @param orders A non-empty list of order parameter lists. Each element uses
+#'   Binance REST parameter names, for example `symbol`, `side`, `type`, and
+#'   `quantity`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A parsed list.
+#' @export
+futures_place_batch_orders <- function(orders, config = config_futures()) {
+  .futures_validate_batch_orders(orders)
+  .request_signed(
+    config,
+    "/fapi/v1/batchOrders",
+    params = list(batchOrders = as.character(jsonlite::toJSON(orders, auto_unbox = TRUE))),
+    method = "POST"
+  )
+}
+
+#' Modify multiple Binance Futures orders
+#'
+#' @param orders A non-empty list of order modification parameter lists. Each
+#'   element uses Binance REST parameter names.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A parsed list.
+#' @export
+futures_modify_batch_orders <- function(orders, config = config_futures()) {
+  .futures_validate_batch_orders(orders)
+  .request_signed(
+    config,
+    "/fapi/v1/batchOrders",
+    params = list(batchOrders = as.character(jsonlite::toJSON(orders, auto_unbox = TRUE))),
+    method = "PUT"
+  )
+}
+
+#' Cancel multiple Binance Futures orders
+#'
+#' @param symbol Trading pair symbol.
+#' @param order_ids Optional numeric vector of exchange order IDs.
+#' @param orig_client_order_ids Optional character vector of client order IDs.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A parsed list.
+#' @export
+futures_cancel_batch_orders <- function(
+    symbol,
+    order_ids = NULL,
+    orig_client_order_ids = NULL,
+    config = config_futures()) {
+  .validate_symbol(symbol)
+  .validate_required_any(order_ids, orig_client_order_ids, arg_names = c("order_ids", "orig_client_order_ids"))
+  if (!is.null(order_ids) && (!is.numeric(order_ids) || !length(order_ids) || anyNA(order_ids) || length(order_ids) > 10L)) {
+    stop("`order_ids` must be a non-empty numeric vector of at most ten order IDs when provided.", call. = FALSE)
+  }
+  .validate_optional_character_vector(orig_client_order_ids, "orig_client_order_ids")
+  if (!is.null(orig_client_order_ids) && length(orig_client_order_ids) > 10L) {
+    stop("`orig_client_order_ids` must contain at most ten order IDs.", call. = FALSE)
+  }
+  .request_signed(
+    config,
+    "/fapi/v1/batchOrders",
+    params = list(
+      symbol = symbol,
+      orderIdList = if (is.null(order_ids)) NULL else as.character(jsonlite::toJSON(order_ids, auto_unbox = TRUE)),
+      origClientOrderIdList = if (is.null(orig_client_order_ids)) NULL else as.character(jsonlite::toJSON(orig_client_order_ids, auto_unbox = TRUE))
+    ),
+    method = "DELETE"
+  )
+}
+
+#' Change Binance Futures position margin
+#'
+#' @param symbol Trading pair symbol.
+#' @param amount Margin amount to add or reduce.
+#' @param type Either `"ADD"` or `"REDUCE"`.
+#' @param position_side One of `"BOTH"`, `"LONG"`, or `"SHORT"`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A parsed list.
+#' @export
+futures_modify_position_margin <- function(
+    symbol,
+    amount,
+    type = c("ADD", "REDUCE"),
+    position_side = c("BOTH", "LONG", "SHORT"),
+    config = config_futures()) {
+  .validate_symbol(symbol)
+  .validate_positive_number(amount, "amount")
+  type <- match.arg(type)
+  position_side <- match.arg(position_side)
+  .request_signed(
+    config,
+    "/fapi/v1/positionMargin",
+    params = list(
+      symbol = symbol,
+      amount = amount,
+      type = if (identical(type, "ADD")) 1L else 2L,
+      positionSide = position_side
+    ),
+    method = "POST"
+  )
+}
+
+#' Get Binance Futures position margin history
+#'
+#' @param symbol Trading pair symbol.
+#' @param type Optional margin-change type: `"ADD"` or `"REDUCE"`.
+#' @param start_time Optional start time in milliseconds since Unix epoch.
+#' @param end_time Optional end time in milliseconds since Unix epoch.
+#' @param limit Maximum number of rows to return. Must not exceed `1000`.
+#' @param json_list If `TRUE`, return the parsed list instead of a `data.table`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_position_margin_history <- function(
+    symbol,
+    type = NULL,
+    start_time = NULL,
+    end_time = NULL,
+    limit = 100,
+    json_list = FALSE,
+    config = config_futures()) {
+  .validate_symbol(symbol)
+  if (!is.null(type)) type <- match.arg(type, c("ADD", "REDUCE"))
+  .validate_optional_scalar_numeric(start_time, "start_time")
+  .validate_optional_scalar_numeric(end_time, "end_time")
+  .futures_validate_limit(limit)
+  .validate_json_list_flag(json_list)
+  payload <- .request_signed(
+    config,
+    "/fapi/v1/positionMargin/history",
+    params = list(symbol = symbol, type = if (is.null(type)) NULL else if (identical(type, "ADD")) 1L else 2L, startTime = start_time, endTime = end_time, limit = limit),
+    method = "GET"
+  )
+  if (isTRUE(json_list)) return(payload)
+  history_dt <- .maybe_as_dt(payload)
+  .coerce_numeric_cols(history_dt, c("amount", "type"))
+  .normalize_time_cols(history_dt, "time")
+}
+
+#' Get Binance Futures income history
+#'
+#' @param symbol Optional trading pair symbol.
+#' @param income_type Optional Binance income type.
+#' @param start_time Optional start time in milliseconds since Unix epoch.
+#' @param end_time Optional end time in milliseconds since Unix epoch.
+#' @param limit Maximum number of rows to return. Must not exceed `1000`.
+#' @param json_list If `TRUE`, return the parsed list instead of a `data.table`.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A `data.table` by default, or a parsed list when `json_list = TRUE`.
+#' @export
+futures_get_income_history <- function(
+    symbol = NULL,
+    income_type = NULL,
+    start_time = NULL,
+    end_time = NULL,
+    limit = 100,
+    json_list = FALSE,
+    config = config_futures()) {
+  if (!is.null(symbol)) .validate_symbol(symbol)
+  .validate_optional_scalar_character(income_type, "income_type")
+  .validate_optional_scalar_numeric(start_time, "start_time")
+  .validate_optional_scalar_numeric(end_time, "end_time")
+  .futures_validate_limit(limit)
+  .validate_json_list_flag(json_list)
+  payload <- .request_signed(
+    config,
+    "/fapi/v1/income",
+    params = list(symbol = symbol, incomeType = income_type, startTime = start_time, endTime = end_time, limit = limit),
+    method = "GET"
+  )
+  if (isTRUE(json_list)) return(payload)
+  income_dt <- .maybe_as_dt(payload)
+  income_dt <- .coerce_numeric_cols(income_dt, c("income", "tranId", "tradeId"))
+  .normalize_time_cols(income_dt, "time")
+}
+
 #' Modify a Binance Futures limit order
 #'
 #' @param symbol Trading pair symbol.
@@ -413,6 +594,14 @@ futures_get_order_amendments <- function(symbol, order_id = NULL, orig_client_or
   orders_dt <- .maybe_as_dt(payload)
   orders_dt <- .coerce_numeric_cols(orders_dt, c("algoId", "orderId", "modifyId"))
   .normalize_time_cols(orders_dt, c("time", "updateTime", "workingTime", "transactTime", "createTime"))
+}
+
+#' @noRd
+.futures_validate_batch_orders <- function(orders) {
+  if (!is.list(orders) || !length(orders) || length(orders) > 5L || !all(vapply(orders, is.list, logical(1)))) {
+    stop("`orders` must be a non-empty list of at most five order parameter lists.", call. = FALSE)
+  }
+  invisible(orders)
 }
 
 #' @rdname futures_place_order
@@ -608,6 +797,32 @@ futures_get_order <- function(
   .request_signed(
     config,
     "/fapi/v1/order",
+    params = list(symbol = symbol, orderId = order_id, origClientOrderId = orig_client_order_id),
+    method = "GET"
+  )
+}
+
+#' Get a current open Binance Futures order
+#'
+#' @param symbol Trading pair symbol, for example `"ETHUSDT"`.
+#' @param order_id Optional exchange order ID.
+#' @param orig_client_order_id Optional client order ID.
+#' @param config A futures configuration created by [config_futures()].
+#'
+#' @return A parsed list.
+#' @export
+futures_get_open_order <- function(
+    symbol,
+    order_id = NULL,
+    orig_client_order_id = NULL,
+    config = config_futures()) {
+  .validate_symbol(symbol)
+  .validate_required_any(order_id, orig_client_order_id, arg_names = c("order_id", "orig_client_order_id"))
+  .validate_optional_scalar_numeric(order_id, "order_id")
+  .validate_optional_scalar_character(orig_client_order_id, "orig_client_order_id")
+  .request_signed(
+    config,
+    "/fapi/v1/openOrder",
     params = list(symbol = symbol, orderId = order_id, origClientOrderId = orig_client_order_id),
     method = "GET"
   )

@@ -72,6 +72,54 @@ options_place_order <- function(
   )
 }
 
+#' Place multiple Binance Options orders
+#'
+#' @param orders A non-empty list of order parameter lists. Each element uses
+#'   Binance REST parameter names, for example `symbol`, `side`, `quantity`,
+#'   and `price`.
+#' @param config An options configuration created by [config_options()].
+#'
+#' @return A parsed list.
+#' @export
+options_place_batch_orders <- function(orders, config = config_options()) {
+  .options_validate_batch_orders(orders)
+  .request_signed(
+    config,
+    "/eapi/v1/batchOrders",
+    params = list(batchOrders = as.character(jsonlite::toJSON(orders, auto_unbox = TRUE))),
+    method = "POST"
+  )
+}
+
+#' Cancel multiple Binance Options orders
+#'
+#' @param order_ids A non-empty numeric vector of exchange order IDs.
+#' @param config An options configuration created by [config_options()].
+#'
+#' @return A parsed list.
+#' @export
+options_cancel_batch_orders <- function(order_ids, config = config_options()) {
+  if (!is.numeric(order_ids) || !length(order_ids) || anyNA(order_ids) || length(order_ids) > 10L) {
+    stop("`order_ids` must be a non-empty numeric vector of at most ten order IDs.", call. = FALSE)
+  }
+  .request_signed(
+    config,
+    "/eapi/v1/batchOrders",
+    params = list(orderIds = as.character(jsonlite::toJSON(order_ids, auto_unbox = TRUE))),
+    method = "DELETE"
+  )
+}
+
+#' Sign the Binance Options stock contract
+#'
+#' @param config An options configuration created by [config_options()].
+#'
+#' @return A parsed list.
+#' @export
+options_sign_stock_contract <- function(config = config_options()) {
+  .request_signed(config, "/eapi/v1/stock/contract", params = list(), method = "POST")
+}
+
 #' Get a Binance Options order
 #'
 #' @param symbol Option symbol, for example `"BTC-200730-9000-C"`.
@@ -116,6 +164,14 @@ options_cancel_order <- function(symbol, order_id = NULL, client_order_id = NULL
     params = list(symbol = symbol, orderId = order_id, clientOrderId = client_order_id),
     method = "DELETE"
   )
+}
+
+#' @noRd
+.options_validate_batch_orders <- function(orders) {
+  if (!is.list(orders) || !length(orders) || length(orders) > 5L || !all(vapply(orders, is.list, logical(1)))) {
+    stop("`orders` must be a non-empty list of at most five order parameter lists.", call. = FALSE)
+  }
+  invisible(orders)
 }
 
 #' Cancel all Binance Options orders for a symbol

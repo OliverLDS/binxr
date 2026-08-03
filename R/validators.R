@@ -129,6 +129,15 @@
 }
 
 #' @noRd
+.validate_api_key_config <- function(config) {
+  .validate_config(config)
+  if (is.null(config$api_key)) {
+    stop("This endpoint requires `api_key` in `config`.", call. = FALSE)
+  }
+  invisible(config)
+}
+
+#' @noRd
 .validate_json_list_flag <- function(json_list) {
   .validate_scalar_logical(json_list, "json_list")
 }

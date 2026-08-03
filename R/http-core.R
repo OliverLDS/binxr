@@ -54,6 +54,25 @@
 }
 
 #' @noRd
+.request_api_key <- function(config, path, params = NULL, method = c("GET", "POST", "PUT", "DELETE")) {
+  .validate_api_key_config(config)
+  .validate_scalar_character(path, "path")
+  method <- match.arg(method)
+
+  req <- httr2::request(paste0(config$base_url, path)) |>
+    httr2::req_timeout(config$timeout) |>
+    httr2::req_headers("X-MBX-APIKEY" = config$api_key) |>
+    httr2::req_method(method)
+
+  params <- .compact_query(params %||% list())
+  if (length(params)) {
+    req <- httr2::req_url_query(req, !!!params)
+  }
+
+  .perform_request(req, method = method, endpoint = path, product = config$product)
+}
+
+#' @noRd
 .perform_request <- function(req, method, endpoint, product) {
   resp <- tryCatch(httr2::req_perform(req), error = function(e) e)
   .parse_response(resp, endpoint = endpoint, method = method, product = product)

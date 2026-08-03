@@ -45,6 +45,8 @@ reference:
   - title: Futures Account
     contents:
       - futures_get_account
+      - futures_get_account_config
+      - futures_get_api_trading_status
       - futures_get_position_risk
       - futures_get_positions
       - futures_get_account_summary
@@ -52,6 +54,9 @@ reference:
       - futures_get_position_mode
       - futures_get_multi_assets_mode
       - futures_get_commission_rate
+      - futures_get_symbol_config
+      - futures_get_leverage_brackets
+      - futures_get_adl_quantile
       - futures_get_order_rate_limit
   - title: Futures Trading
     contents:
@@ -68,11 +73,18 @@ reference:
       - futures_get_algo_orders
       - futures_modify_order
       - futures_get_order_amendments
+      - futures_place_batch_orders
+      - futures_modify_batch_orders
+      - futures_cancel_batch_orders
+      - futures_modify_position_margin
+      - futures_get_position_margin_history
+      - futures_get_income_history
       - futures_cancel_order
       - futures_cancel_all_orders
       - futures_get_open_orders
       - futures_get_orders
       - futures_get_order
+      - futures_get_open_order
       - futures_get_account_trades
       - futures_get_force_orders
       - futures_set_multi_assets_mode
@@ -148,7 +160,13 @@ reference:
   - title: Options Account and Trading
     contents:
       - options_get_margin_account
+      - options_start_user_data_stream
+      - options_keepalive_user_data_stream
+      - options_close_user_data_stream
       - options_place_order
+      - options_place_batch_orders
+      - options_cancel_batch_orders
+      - options_sign_stock_contract
       - options_get_order
       - options_cancel_order
       - options_cancel_all_orders

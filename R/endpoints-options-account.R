@@ -49,3 +49,37 @@ options_get_funding_flow <- function(
   bill_dt <- .coerce_numeric_cols(bill_dt, c("id", "amount"))
   .normalize_time_cols(bill_dt, "createDate")
 }
+
+#' Start a Binance Options user data stream
+#'
+#' @param config An options configuration created by [config_options()] with an API key.
+#'
+#' @return A parsed list containing a listen key.
+#' @export
+options_start_user_data_stream <- function(config = config_options()) {
+  .request_api_key(config, "/eapi/v1/listenKey", params = list(), method = "POST")
+}
+
+#' Keep alive a Binance Options user data stream
+#'
+#' @param listen_key Listen key returned by `options_start_user_data_stream()`.
+#' @param config An options configuration created by [config_options()] with an API key.
+#'
+#' @return A parsed list.
+#' @export
+options_keepalive_user_data_stream <- function(listen_key, config = config_options()) {
+  .validate_scalar_character(listen_key, "listen_key")
+  .request_api_key(config, "/eapi/v1/listenKey", params = list(listenKey = listen_key), method = "PUT")
+}
+
+#' Close a Binance Options user data stream
+#'
+#' @param listen_key Listen key returned by `options_start_user_data_stream()`.
+#' @param config An options configuration created by [config_options()] with an API key.
+#'
+#' @return A parsed list.
+#' @export
+options_close_user_data_stream <- function(listen_key, config = config_options()) {
+  .validate_scalar_character(listen_key, "listen_key")
+  .request_api_key(config, "/eapi/v1/listenKey", params = list(listenKey = listen_key), method = "DELETE")
+}

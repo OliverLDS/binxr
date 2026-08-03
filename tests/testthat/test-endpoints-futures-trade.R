@@ -124,3 +124,35 @@ test_that("futures order modification endpoints forward modify IDs", {
   expect_equal(amendments_out$modifyId, 44)
   expect_s3_class(amendments_out$time, "POSIXct")
 })
+
+test_that("futures batch, margin, income, and open-order helpers forward parameters", {
+  cfg <- config_futures(api_key = "k", secret_key = "s")
+
+  local_mocked_bindings(
+    .request_signed = function(config, path, params = NULL, method = c("GET", "POST", "PUT", "DELETE")) {
+      list(path = path, params = params, method = method)
+    },
+    .package = "binxr"
+  )
+
+  position_mode <- futures_set_position_mode(FALSE, config = cfg)
+  place <- futures_place_batch_orders(list(list(symbol = "BTCUSDT", side = "BUY", type = "MARKET", quantity = 1)), config = cfg)
+  modify <- futures_modify_batch_orders(list(list(symbol = "BTCUSDT", orderId = 1, side = "BUY", quantity = 2, price = 100)), config = cfg)
+  cancel <- futures_cancel_batch_orders("BTCUSDT", order_ids = c(1, 2), config = cfg)
+  margin <- futures_modify_position_margin("BTCUSDT", amount = 1, type = "REDUCE", config = cfg)
+  margin_history <- futures_get_position_margin_history("BTCUSDT", type = "ADD", json_list = TRUE, config = cfg)
+  income <- futures_get_income_history("BTCUSDT", income_type = "REALIZED_PNL", json_list = TRUE, config = cfg)
+  open_order <- futures_get_open_order("BTCUSDT", order_id = 1, config = cfg)
+
+  expect_identical(position_mode$path, "/fapi/v1/positionSide/dual")
+  expect_identical(place$path, "/fapi/v1/batchOrders")
+  expect_identical(place$method, "POST")
+  expect_match(place$params$batchOrders, "BTCUSDT", fixed = TRUE)
+  expect_identical(modify$method, "PUT")
+  expect_identical(cancel$method, "DELETE")
+  expect_identical(cancel$params$orderIdList, "[1,2]")
+  expect_identical(margin$params$type, 2L)
+  expect_identical(margin_history$params$type, 1L)
+  expect_identical(income$params$incomeType, "REALIZED_PNL")
+  expect_identical(open_order$path, "/fapi/v1/openOrder")
+})

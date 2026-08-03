@@ -12,6 +12,7 @@ Documentation site: <https://oliverlds.github.io/binxr/>
 - Authenticated endpoints (account info, positions, and order management)
 - Spot, USD-M Futures (`/fapi`), and Options REST product areas
 - No COIN-M Futures, Portfolio Margin, WebSocket, SBE, or FIX support
+- Options block-trade and market-maker endpoints are intentionally excluded
 - Data returned as `data.table` for easy downstream analysis
 
 ## Installation
