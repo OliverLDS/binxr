@@ -99,3 +99,44 @@ test_that("options batch, stock-contract, and listen-key helpers use documented 
   expect_identical(keepalive$params$listenKey, "listen-key")
   expect_identical(close$method, "DELETE")
 })
+
+test_that("opt-in Options block trade and market maker endpoints use signed paths", {
+  cfg <- config_options(api_key = "k", secret_key = "s")
+  expect_error(options_place_block_trade_order(list(), config = cfg), "legs")
+  expect_error(options_set_market_maker_protection("BTCUSDT", 1000, -1, 1, 1, config = cfg), "frozen_time_ms")
+
+  local_mocked_bindings(
+    .request_signed = function(config, path, params = NULL, method = c("GET", "POST", "PUT", "DELETE")) {
+      list(path = path, params = params, method = method)
+    },
+    .package = "binxr"
+  )
+
+  legs <- list(list(symbol = "BTC-200730-9000-C", side = "BUY", type = "LIMIT", quantity = 1, price = 100))
+  place <- options_place_block_trade_order(legs, config = cfg)
+  extend <- options_extend_block_trade_order("key", config = cfg)
+  cancel <- options_cancel_block_trade_order("key", config = cfg)
+  orders <- options_get_block_trade_orders("key", underlying = "BTCUSDT", json_list = TRUE, config = cfg)
+  accept <- options_accept_block_trade_order("key", config = cfg)
+  details <- options_get_block_trade_details("key", config = cfg)
+  trades <- options_get_account_block_trades("BTCUSDT", json_list = TRUE, config = cfg)
+  mmp <- options_get_market_maker_protection("BTCUSDT", config = cfg)
+  set_mmp <- options_set_market_maker_protection("BTCUSDT", 1000, 0, 1, 2, config = cfg)
+  reset_mmp <- options_reset_market_maker_protection("BTCUSDT", config = cfg)
+
+  expect_identical(place$path, "/eapi/v1/block/order/create")
+  expect_identical(place$method, "POST")
+  expect_match(place$params$legs, "BTC-200730-9000-C", fixed = TRUE)
+  expect_identical(extend$method, "PUT")
+  expect_identical(cancel$method, "DELETE")
+  expect_identical(orders$path, "/eapi/v1/block/order/orders")
+  expect_identical(orders$params$underlying, "BTCUSDT")
+  expect_identical(accept$path, "/eapi/v1/block/order/execute")
+  expect_identical(accept$method, "POST")
+  expect_identical(details$method, "GET")
+  expect_identical(trades$path, "/eapi/v1/block/user-trades")
+  expect_identical(mmp$path, "/eapi/v1/mmp")
+  expect_identical(set_mmp$params$windowTimeInMilliseconds, 1000)
+  expect_identical(set_mmp$params$frozenTimeInMilliseconds, 0)
+  expect_identical(reset_mmp$path, "/eapi/v1/mmpReset")
+})

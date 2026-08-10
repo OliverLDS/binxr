@@ -190,6 +190,18 @@ reference:
       - options_get_commission
       - options_get_funding_flow
       - options_get_exercise_records
+  - title: Options Market Maker and Block Trade (Opt-in)
+    contents:
+      - options_place_block_trade_order
+      - options_extend_block_trade_order
+      - options_cancel_block_trade_order
+      - options_get_block_trade_orders
+      - options_accept_block_trade_order
+      - options_get_block_trade_details
+      - options_get_account_block_trades
+      - options_get_market_maker_protection
+      - options_set_market_maker_protection
+      - options_reset_market_maker_protection
   - title: Helpers
     contents:
       - round_price_qty
