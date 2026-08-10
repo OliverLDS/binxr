@@ -2,6 +2,9 @@
 
 ## binxr (development version)
 
+- Added an explicitly opt-in Options market-maker and block-trade API
+  group, including block-order lifecycle, account block-trade, and
+  market maker protection helpers.
 - Added USD-M Futures market-data wrappers for open-interest history,
   long-short ratios, taker buy-sell volume, basis, delivery prices,
   composite index information, and asset index prices. Added Futures
@@ -11,8 +14,7 @@
   account configuration, symbol configuration, API trading status,
   leverage brackets, ADL quantiles, and current open-order helpers.
 - Added Options batch orders, stock-contract signing, and API-key-only
-  user data stream listen-key helpers. Options block-trade and
-  market-maker endpoints remain intentionally out of scope.
+  user data stream listen-key helpers.
 
 ## binxr 0.1.2
 

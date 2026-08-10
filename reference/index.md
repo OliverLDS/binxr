@@ -373,6 +373,29 @@
 - [`options_get_exercise_records()`](https://oliverlds.github.io/binxr/reference/options_get_exercise_records.md)
   : Get Binance Options exercise records
 
+## Options Market Maker and Block Trade (Opt-in)
+
+- [`options_place_block_trade_order()`](https://oliverlds.github.io/binxr/reference/options_place_block_trade_order.md)
+  : Place a Binance Options block trade order
+- [`options_extend_block_trade_order()`](https://oliverlds.github.io/binxr/reference/options_extend_block_trade_order.md)
+  : Extend a Binance Options block trade order
+- [`options_cancel_block_trade_order()`](https://oliverlds.github.io/binxr/reference/options_cancel_block_trade_order.md)
+  : Cancel a Binance Options block trade order
+- [`options_get_block_trade_orders()`](https://oliverlds.github.io/binxr/reference/options_get_block_trade_orders.md)
+  : Get Binance Options block trade orders
+- [`options_accept_block_trade_order()`](https://oliverlds.github.io/binxr/reference/options_accept_block_trade_order.md)
+  : Accept a Binance Options block trade order
+- [`options_get_block_trade_details()`](https://oliverlds.github.io/binxr/reference/options_get_block_trade_details.md)
+  : Get Binance Options block trade details
+- [`options_get_account_block_trades()`](https://oliverlds.github.io/binxr/reference/options_get_account_block_trades.md)
+  : Get Binance Options account block trades
+- [`options_get_market_maker_protection()`](https://oliverlds.github.io/binxr/reference/options_get_market_maker_protection.md)
+  : Get Binance Options market maker protection configuration
+- [`options_set_market_maker_protection()`](https://oliverlds.github.io/binxr/reference/options_set_market_maker_protection.md)
+  : Set Binance Options market maker protection configuration
+- [`options_reset_market_maker_protection()`](https://oliverlds.github.io/binxr/reference/options_reset_market_maker_protection.md)
+  : Reset Binance Options market maker protection
+
 ## Helpers
 
 - [`round_price_qty()`](https://oliverlds.github.io/binxr/reference/round_price_qty.md)
